@@ -3,7 +3,11 @@
 
 #include <vector>
 #include <string>
+#include <algorithm>
+#include <stdlib.h>
+#include <stdio.h>
 
+// Estruturas
 struct Node {
     std::string word;
     std::vector<int> documentIds;
@@ -31,7 +35,12 @@ struct SearchResult {
     int numComparisons;
 };
 
+// Funções
+
 void printIndex(BinaryTree* tree);
 void printTree(BinaryTree* tree);
+Node* createNode();
+void destroyNode(Node* node);
+
 
 #endif
