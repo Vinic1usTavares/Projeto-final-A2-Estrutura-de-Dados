@@ -6,6 +6,9 @@
 #include <algorithm>
 #include <stdlib.h>
 #include <stdio.h>
+#include <iostream>
+#include <chrono>
+#include <ctime>
 
 // Estruturas
 struct Node {
@@ -37,6 +40,7 @@ struct SearchResult {
 
 // Funções
 
+void printIndexAux(Node* node, int& count, int max);
 void printIndex(BinaryTree* tree);
 void printTree(BinaryTree* tree);
 Node* createNode();

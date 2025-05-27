@@ -1,12 +1,38 @@
 #include "tree_utils.h"
 
-void printIndex(BinaryTree* tree);
+void printIndexAux(Node* node, int& count, int max = 50) {
+    if (node != nullptr && count < max) {
+        count++;
+        std::cout << count << ". " << node->word << ": ";
+
+        // Imprime os elementos separados por vírgula, sem vírgula final
+        for (size_t i = 0; i < node->documentIds.size(); ++i) {
+            std::cout << node->documentIds[i];
+            if (i != node->documentIds.size() - 1) {
+                std::cout << ", ";
+            }
+        }
+        std::cout << '\n';
+
+        // Ordem lexicográfica (esquerda -> raiz -> direita)
+        printIndexAux(node->left, count);
+        printIndexAux(node->right, count);
+    }
+}
+
+void printIndex(BinaryTree* tree) {
+    Node* node = tree->root;
+    int count = 0;
+    printIndexAux(node, count);
+}
+
+
 void printTree(BinaryTree* tree);
 
-Node* createNode(const std::string& word, int docId) {
+Node* createNode() {
     Node* node = new Node;
-    node->word = word;
-    node->documentIds.push_back(docId);
+    node->word = "";
+    node->documentIds = {};
     node->left = nullptr;
     node->right = nullptr;
     node->parent = nullptr;
