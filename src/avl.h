@@ -1,5 +1,5 @@
-#ifndef BST_H
-#define BST_H
+#ifndef AVL_H
+#define AVL_H
 
 #include "tree_utils.h"
 #include <string>
