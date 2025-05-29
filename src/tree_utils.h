@@ -3,12 +3,8 @@
 
 #include <vector>
 #include <string>
-#include <algorithm>
-#include <stdlib.h>
-#include <stdio.h>
 #include <iostream>
 #include <chrono>
-#include <ctime>
 
 // Estruturas
 struct Node {
@@ -38,13 +34,14 @@ struct SearchResult {
     int numComparisons;
 };
 
-// Funções
 
+
+// Funções
 void printIndexAux(Node* node, int& count, int max);
 void printIndex(BinaryTree* tree);
 void printTree(BinaryTree* tree);
 Node* createNode();
 void destroyNode(Node* node);
-
+void destroyNodeRBT(Node* node, BinaryTree* tree);
 
 #endif

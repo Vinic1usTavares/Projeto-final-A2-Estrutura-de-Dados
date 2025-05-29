@@ -2,7 +2,21 @@
 #include "data.h"
 #include <iostream>
 #include <string>
-#include <chrono>  // Para medir tempo de indexação
+#include <chrono>
+#include <vector>
+
+
+// Função manual para processar palavras
+std::string process_word(const std::string& word) {
+    std::string result;
+    for (char c : word) {
+        char lower_c = to_lower(c);
+        if ((lower_c >= 'a' && lower_c <= 'z') || (lower_c >= '0' && lower_c <= '9')) {
+            result += lower_c;
+        }
+    }
+    return result;
+}
 
 int main(int argc, char* argv[]) {
     if (argc < 4) {
@@ -16,7 +30,6 @@ int main(int argc, char* argv[]) {
 
     BinaryTree* tree = AVL::create();
 
-    // Mede o tempo total de indexação
     auto start_index = std::chrono::high_resolution_clock::now();
     auto documents = load_documents(dir, n_docs);
     std::vector<InsertResult> insert_results = index_documents(tree, documents, AVL::insert);
@@ -27,22 +40,29 @@ int main(int argc, char* argv[]) {
         std::string query;
         std::cout << "Digite uma palavra para buscar: ";
         std::cin >> query;
-
-        SearchResult result = AVL::search(tree, query);
-        if (result.found) {
-            std::cout << "Palavra \"" << query << "\" encontrada em " << result.documentIds.size() 
-                      << " documento(s): ";
-            for (int id : result.documentIds) {
-                std::cout << id << " ";
-            }
-            std::cout << "\nTempo de busca: " << result.executionTime << " ms\n";
-            std::cout << "Comparações realizadas: " << result.numComparisons << "\n";
+        
+        std::string clean_query = process_word(query);
+        if (clean_query.empty()) {
+            std::cout << "Palavra inválida após processamento.\n";
         } else {
-            std::cout << "Palavra \"" << query << "\" não encontrada.\n";
+            SearchResult result = AVL::search(tree, clean_query);
+            if (result.found) {
+                std::cout << "Palavra \"" << clean_query << "\" encontrada em " 
+                          << result.documentIds.size() << " documento(s): ";
+                for (size_t i = 0; i < result.documentIds.size(); ++i) {
+                    std::cout << result.documentIds[i];
+                    if (i < result.documentIds.size() - 1) {
+                        std::cout << ", ";
+                    }
+                }
+                std::cout << "\nTempo de busca: " << result.executionTime << " ms\n";
+                std::cout << "Comparações realizadas: " << result.numComparisons << "\n";
+            } else {
+                std::cout << "Palavra \"" << clean_query << "\" não encontrada.\n";
+            }
         }
-
-    } else if (command == "stats") {
-        // Estatísticas de indexação
+    } 
+    else if (command == "stats") {
         int total_comparisons = 0;
         for (const auto& res : insert_results) {
             total_comparisons += res.numComparisons;
@@ -54,7 +74,6 @@ int main(int argc, char* argv[]) {
         std::cout << "Comparações totais (inserção): " << total_comparisons << "\n";
         std::cout << "Altura da árvore: " << (tree->root ? tree->root->height : 0) << "\n\n";
 
-        // Opcional: imprimir parte do índice (primeiras 20 palavras)
         std::cout << "=== Índice (amostra) ===\n";
         printIndex(tree);
     }
