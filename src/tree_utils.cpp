@@ -46,31 +46,55 @@ Node* criarNode(const std::string& palavra, std::vector<int> ids = {}) {
 
 int main() {
     std::locale::global(std::locale(""));
-    // Criar os nós da árvore
+
+    // Criar os nós
     Node* algoritmo = criarNode("algoritmo", {2, 3, 5});
     Node* arvore    = criarNode("arvore", {1, 2});
-    Node* memoria   = criarNode("memoria", {4});
+    Node* classe    = criarNode("classe", {11});
+    Node* estrutura = criarNode("estrutura", {10});
+    Node* fila      = criarNode("fila", {13});
     Node* lista     = criarNode("lista", {3});
+    Node* memoria   = criarNode("memoria", {4});
+    Node* objeto    = criarNode("objeto", {12});
+    Node* pilha     = criarNode("pilha", {14});
+    Node* ponteiro  = criarNode("ponteiro", {9});
     Node* vetor     = criarNode("vetor", {7, 8});
 
-    // Conectar os nós
-    algoritmo->left = arvore;
-    algoritmo->right = memoria;
-    arvore->parent = algoritmo;
-    memoria->parent = algoritmo;
+    // Conectar os nós manualmente em ordem alfabética
+    memoria->left = estrutura;
+    memoria->right = ponteiro;
+    estrutura->parent = memoria;
+    ponteiro->parent = memoria;
 
-    memoria->left = lista;
-    memoria->right = vetor;
-    lista->parent = memoria;
-    vetor->parent = memoria;
+    estrutura->left = classe;
+    estrutura->right = lista;
+    classe->parent = estrutura;
+    lista->parent = estrutura;
 
-    // building the tree
+    classe->left = algoritmo;
+    classe->right = arvore;
+    algoritmo->parent = classe;
+    arvore->parent = classe;
+
+    lista->right = fila;
+    fila->parent = lista;
+
+    fila->right = objeto;
+    objeto->parent = fila;
+
+    ponteiro->left = pilha;
+    ponteiro->right = vetor;
+    pilha->parent = ponteiro;
+    vetor->parent = ponteiro;
+
+    // Montar a árvore
     BinaryTree tree;
-    tree.root = algoritmo;
-    tree.NIL = nullptr; 
+    tree.root = memoria;
+    tree.NIL = nullptr;
 
-    // print Function
+    // Imprimir
     printTree(&tree);
 
     return 0;
 }
+
