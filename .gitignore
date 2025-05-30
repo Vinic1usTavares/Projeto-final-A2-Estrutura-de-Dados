@@ -1,0 +1,20 @@
+# Ignorar arquivos objeto compilados
+*.o
+*.obj
+
+
+# Ignorar arquivos executáveis (Linux/Mac/Windows)
+*.out
+*.exe
+
+
+
+# Ignorar arquivos temporários e backups
+*~
+*.swp
+*.tmp
+.DS_Store
+Thumbs.db
+*.pdb
+*.ilk
+
