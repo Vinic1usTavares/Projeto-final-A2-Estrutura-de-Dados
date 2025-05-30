@@ -2,22 +2,22 @@
 #define RBT_H
 
 #include <string>
-#include "tree_utils.h"  // inclui a definição de BinaryTree e Node
+#include "tree_utils.h"  //inclui a definição de BinaryTree e Node
 
 namespace RBT {
 
-    // cria uma nova árvore rubro-negra
+    //cria uma nova árvore rbt
     BinaryTree* create();
 
-    // insere uma palavra com um ID de documento
+    //insere uma palavra com um id do documento
     InsertResult insert(BinaryTree* tree, const std::string& word, int documentId);
 
-    // busca uma palavra na árvore
+    //busca uma palavra na árvore
     SearchResult search(BinaryTree* tree, const std::string& word);
 
-    // libera memória da árvore
+    //libera memória da árvore
     void deleteTree(BinaryTree* tree);
 
-} // namespace RBT
+} //namespace RBT
 
 #endif // RBT_H
