@@ -3,7 +3,10 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
+#include <chrono>
 
+// Estruturas
 struct Node {
     std::string word;
     std::vector<int> documentIds;
@@ -31,7 +34,13 @@ struct SearchResult {
     int numComparisons;
 };
 
+
+// Funções
+void printIndexAux(Node* node, int& count, int max);
 void printIndex(BinaryTree* tree);
 void printTree(BinaryTree* tree);
+Node* createNode();
+void destroyNode(Node* node);
+void destroyNodeRBT(Node* node, BinaryTree* tree);
 
 #endif
