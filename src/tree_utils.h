@@ -3,8 +3,12 @@
 
 #include <vector>
 #include <string>
+#include <algorithm>
+#include <stdlib.h>
+#include <stdio.h>
 #include <iostream>
 #include <chrono>
+#include <ctime>
 
 // Estruturas
 struct Node {
