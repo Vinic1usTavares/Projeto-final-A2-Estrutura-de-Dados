@@ -1,3 +1,12 @@
+/**
+ * @file main.cpp
+ * @brief Programa principal para indexação e consulta de documentos usando Árvore AVL
+ * 
+ * Oferece dois modos de operação:
+ * - search: Busca palavras no índice
+ * - stats: Exibe estatísticas da indexação
+ */
+
 #include "avl.h"
 #include "data.h"
 #include <iostream>
@@ -5,8 +14,12 @@
 #include <chrono>
 #include <vector>
 
-
-// Função manual para processar palavras
+/**
+ * @brief Processa uma palavra removendo caracteres especiais e convertendo para minúsculas
+ * @param word Palavra a ser processada
+ * @return String limpa contendo apenas caracteres alfanuméricos em minúscula
+ * @note Exemplo: "He'lLo!" → "hello"
+ */
 std::string process_word(const std::string& word) {
     std::string result;
     for (char c : word) {
@@ -18,7 +31,28 @@ std::string process_word(const std::string& word) {
     return result;
 }
 
+/**
+ * @brief Função principal do programa
+ * @param argc Número de argumentos de linha de comando
+ * @param argv Argumentos:
+ *             [0] Nome do programa
+ *             [1] Modo de operação ("search" ou "stats")
+ *             [2] Número de documentos a indexar
+ *             [3] Diretório contendo os documentos
+ * @return 0 em caso de sucesso, 1 para erros de execução
+ * 
+ * @section workflow Fluxo de Execução
+ * 1. Carrega documentos do diretório especificado
+ * 2. Indexa conteúdo na AVL
+ * 3. Executa o comando solicitado (busca ou estatísticas)
+ * 
+ * @section metrics Métricas Coletadas
+ * - Tempo de indexação
+ * - Número de comparações
+ * - Altura da árvore
+ */
 int main(int argc, char* argv[]) {
+    // Validação dos argumentos
     if (argc < 4) {
         std::cerr << "Uso: ./avl <search|stats> <n_docs> <diretorio>\n";
         return 1;
@@ -28,14 +62,17 @@ int main(int argc, char* argv[]) {
     int n_docs = std::stoi(argv[2]);
     std::string dir = argv[3];
 
+    // Inicialização da árvore
     BinaryTree* tree = AVL::create();
 
+    // Fase de indexação com medição de tempo
     auto start_index = std::chrono::high_resolution_clock::now();
     auto documents = load_documents(dir, n_docs);
     std::vector<InsertResult> insert_results = index_documents(tree, documents, AVL::insert);
     auto end_index = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> index_time = end_index - start_index;
 
+    // Modo de busca
     if (command == "search") {
         std::string query;
         std::cout << "Digite uma palavra para buscar: ";
@@ -62,6 +99,7 @@ int main(int argc, char* argv[]) {
             }
         }
     } 
+    // Modo de estatísticas
     else if (command == "stats") {
         int total_comparisons = 0;
         for (const auto& res : insert_results) {
@@ -78,6 +116,7 @@ int main(int argc, char* argv[]) {
         printIndex(tree);
     }
 
+    // Liberação de recursos
     AVL::destroy(tree);
     return 0;
 }
