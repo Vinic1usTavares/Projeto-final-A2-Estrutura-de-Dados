@@ -1,29 +1,33 @@
 #include "tree_utils.h"
-#include <iostream>
 
-void printIndexAux(Node* node, int& count, int max) {
+void printIndexAux(Node* node, int& count, int max = 50) {
     if (node != nullptr && count < max) {
-        printIndexAux(node->left, count, max);
-        
         count++;
         std::cout << count << ". " << node->word << ": ";
-        
+
+        // Imprime os elementos separados por vírgula, sem vírgula final
         for (size_t i = 0; i < node->documentIds.size(); ++i) {
             std::cout << node->documentIds[i];
-            if (i < node->documentIds.size() - 1) {
+            if (i != node->documentIds.size() - 1) {
                 std::cout << ", ";
             }
         }
         std::cout << '\n';
-        
-        printIndexAux(node->right, count, max);
+
+        // Ordem lexicográfica (esquerda -> raiz -> direita)
+        printIndexAux(node->left, count);
+        printIndexAux(node->right, count);
     }
 }
 
 void printIndex(BinaryTree* tree) {
+    Node* node = tree->root;
     int count = 0;
-    printIndexAux(tree->root, count, 50);
+    printIndexAux(node, count);
 }
+
+
+void printTree(BinaryTree* tree);
 
 Node* createNode() {
     Node* node = new Node;
@@ -32,53 +36,23 @@ Node* createNode() {
     node->left = nullptr;
     node->right = nullptr;
     node->parent = nullptr;
-    node->height = 1;
-    node->isRed = 0;
+    node->height = 1;  // Altura padrão (usado na AVL)
+    node->isRed = 0;   // Por padrão, preto. Só será alterado na RBT.
     return node;
 }
 
-void destroyNode(Node* node) {
-    if (node != nullptr) {
+void destroyNode(Node* node){
+    if(node != nullptr){
         destroyNode(node->left);
         destroyNode(node->right);
         delete node;
-    }
+        }
 }
 
-void destroyNodeRBT(Node* node, BinaryTree* tree) {
-    if (node != tree->NIL) {
-        destroyNodeRBT(node->left, tree);
-        destroyNodeRBT(node->right, tree);
+void destroyNodeRBT(Node* node, BinaryTree* tree){
+    if(node != tree->NIL){
+        destroyNode(node->left);
+        destroyNode(node->right);
         delete node;
-    }
+        }
 }
-
-// Função auxiliar para imprimir cada nó recursivamente
-void printTreeNode(Node* node, std::string prefix, bool isLeft) {
-    if (node == nullptr) return;
-
-    std::cout << prefix;
-    std::cout << (isLeft ? u8"|-- " : u8"'-- ");
-
-    std::cout << node->word << std::endl;
-
-    std::string childPrefix = prefix + (isLeft ? u8"|   " : u8"    ");
-
-    printTreeNode(node->left, childPrefix, true);
-    printTreeNode(node->right, childPrefix, false);
-}
-
-void printTree(BinaryTree* tree) {
-    if (tree == nullptr) return; //checks if it is not a null pointer
-
-    Node* root = tree->root;
-    std::cout << tree->root->word << std::endl;
-
-
-    printTreeNode(tree->root->left, "", true);
-    printTreeNode(tree->root->right, "", false);
-
-}
-
-
-

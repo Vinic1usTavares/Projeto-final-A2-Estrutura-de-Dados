@@ -38,13 +38,13 @@ struct SearchResult {
     int numComparisons;
 };
 
-
 // Funções
+
 void printIndexAux(Node* node, int& count, int max);
 void printIndex(BinaryTree* tree);
 void printTree(BinaryTree* tree);
 Node* createNode();
 void destroyNode(Node* node);
-void destroyNodeRBT(Node* node, BinaryTree* tree);
+
 
 #endif

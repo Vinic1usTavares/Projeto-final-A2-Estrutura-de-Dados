@@ -19,16 +19,18 @@ int main(int argc, char* argv[]) {
     std::vector<InsertResult> results = index_documents(tree, documents, BST::insert); // Estatísticas da geração da árvore
 
     if (command == "search") {
-        std::string query;
-        std::cout << "Digite uma palavra para buscar: ";
-        std::cin >> query;
-        SearchResult result = BST::search(tree, query);
-        if(result.found == 0) std::cout << query << " nao esta presente nos textos \n";
-        else{
+        while(true){
+            std::string query;
+            std::cout << "Digite uma palavra para buscar: ";
+            std::cin >> query;
+            SearchResult result = BST::search(tree, query);
+            if(result.found == 0) std::cout << query << " nao esta presente nos textos \n";
+            else{
             std::cout << "A palavra: \"" << query << "\" foi encontrada em " << result.documentIds.size() << " documento(s): ";
             for(int id: result.documentIds) std::cout << id << ',';
             std::cout << "\ntempo total da busca: " << result.executionTime << " ms \n";
             std::cout << "total de comparacoes feitas: " << result.numComparisons << "\n";
+        }
         }
     } else if (command == "stats") {
         // imprimir estatísticas
