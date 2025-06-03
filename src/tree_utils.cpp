@@ -37,7 +37,18 @@ Node* createNode() {
     return node;
 }
 
-int main() {
-    return 0;
+void destroyNode(Node* node) {
+    if (node != nullptr) {
+        destroyNode(node->left);
+        destroyNode(node->right);
+        delete node;
+    }
 }
 
+void destroyNodeRBT(Node* node, BinaryTree* tree) {
+    if (node != tree->NIL) {
+        destroyNodeRBT(node->left, tree);
+        destroyNodeRBT(node->right, tree);
+        delete node;
+    }
+}
