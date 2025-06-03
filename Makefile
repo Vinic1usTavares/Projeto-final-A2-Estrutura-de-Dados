@@ -6,7 +6,7 @@ OBJ_DIR := obj
 # Compilador e flags
 CXX := g++
 CXXFLAGS := -Wall -std=c++17 -I$(SRC_DIR)
-LDFLAGS := -mconsole  # 👈 FORÇA PROGRAMA DE TERMINAL NO WINDOWS
+LDFLAGS := -mconsole  # FORÇA PROGRAMA DE TERMINAL NO WINDOWS
 
 # Fontes principais
 BST_MAIN := $(SRC_DIR)/main_bst.cpp
@@ -17,7 +17,7 @@ RBT_MAIN := $(SRC_DIR)/main_rbt.cpp
 COMMON_SRCS := $(SRC_DIR)/tree_utils.cpp $(SRC_DIR)/data.cpp
 
 # Fontes de cada estrutura
-BST_SRCS := $(SRC_DIR)/bst.cpp
+BST_SRCS := $(SRC_DIR)/bst.cpp $(SRC_DIR)/test_bst.cpp
 AVL_SRCS := $(SRC_DIR)/avl.cpp
 RBT_SRCS := $(SRC_DIR)/rbt.cpp
 
