@@ -16,6 +16,7 @@
 #include <string>
 #include <functional>
 #include <sstream>
+#include <cctype>
 
 /**
  * @brief Processa um texto extraindo palavras normalizadas.
@@ -55,4 +56,8 @@ std::vector<InsertResult> index_documents(
  */
 char to_lower(char c);
 
+<<<<<<< HEAD
 #endif // DATA_H
+=======
+#endif
+>>>>>>> origin/main
