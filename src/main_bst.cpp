@@ -20,15 +20,20 @@ int main(int argc, char* argv[]) {
 
     if (command == "search") {
         std::string query;
-        std::cout << "Digite uma palavra para buscar: ";
-        std::cin >> query;
-        SearchResult result = BST::search(tree, query);
-        if(result.found == 0) std::cout << query << " nao esta presente nos textos \n";
-        else{
-            std::cout << "A palavra: \"" << query << "\" foi encontrada em " << result.documentIds.size() << " documento(s): ";
-            for(int id: result.documentIds) std::cout << id << ',';
-            std::cout << "\ntempo total da busca: " << result.executionTime << " ms \n";
-            std::cout << "total de comparacoes feitas: " << result.numComparisons << "\n";
+
+        while (true) {
+            std::cout << "Digite --quit para abortar a execução." << std::endl;
+            std::cout << "Digite uma palavra para buscar: ";
+            std::cin >> query;
+            SearchResult result = BST::search(tree, query);
+            if(result.found == 0) std::cout << query << " nao esta presente nos textos \n";
+            else{
+                std::cout << "A palavra: \"" << query << "\" foi encontrada em " << result.documentIds.size() << " documento(s): ";
+                for(int id: result.documentIds) std::cout << id << ',';
+                std::cout << "\nTempo total da busca: " << result.executionTime << " ms \n";
+                std::cout << "Total de comparacoes feitas: " << result.numComparisons << "\n";
+                std::cout << std::endl;
+            }
         }
     } else if (command == "stats") {
         // imprimir estatísticas
