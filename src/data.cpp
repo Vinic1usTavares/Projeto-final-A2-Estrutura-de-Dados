@@ -1,8 +1,3 @@
-/**
- * @file data_processing.h
- * @brief Funções para processamento de texto e indexação de documentos em uma árvore binária.
- */
-
 #include "data.h"
 #include "tree_utils.h"
 #include <iostream>
@@ -11,11 +6,7 @@
 #include <string>
 #include <sstream>
 
-/**
- * @brief Converte um caractere para minúscula.
- * @param c Caractere a ser convertido.
- * @return O caractere em minúscula, ou o próprio caractere se não for letra maiúscula.
- */
+// Função manual para converter para minúsculas
 char to_lower(char c) {
     if (c >= 'A' && c <= 'Z') {
         return c - 'A' + 'a';
@@ -23,13 +14,6 @@ char to_lower(char c) {
     return c;
 }
 
-/**
- * @brief Processa um texto extraindo palavras limpas (somente letras e números em minúsculas).
- * @param text Texto de entrada a ser processado.
- * @return Vetor de strings contendo as palavras processadas.
- * @note Remove caracteres especiais e converte tudo para minúsculas.
- *       Exemplo: "Hello, World!" → ["hello", "world"]
- */
 std::vector<std::string> process_words(const std::string& text) {
     std::vector<std::string> words;
     std::istringstream stream(text);
@@ -51,20 +35,12 @@ std::vector<std::string> process_words(const std::string& text) {
     return words;
 }
 
-/**
- * @brief Carrega documentos de um diretório.
- * @param dir Caminho do diretório contendo os arquivos.
- * @param n_docs Número máximo de documentos a carregar (arquivos devem ser nomeados como 0.txt, 1.txt, etc.).
- * @return Vetor de pares contendo:
- *         - Conteúdo do documento (string)
- *         - ID do documento (int)
- * @note Emite avisos para arquivos não encontrados e erro se nenhum documento for carregado.
- */
 std::vector<std::pair<std::string, int>> load_documents(const std::string& dir, int n_docs) {
     std::vector<std::pair<std::string, int>> documents;
     int count = 0;
 
-    for (int i = 0; i < n_docs; ++i) {
+    for (int i = 0; i < n_docs; ++i) {  // Agora começa em 0
+        // Gera o nome do arquivo: 0.txt, 1.txt, ... 99.txt
         std::string filename = std::to_string(i) + ".txt";
         std::string fullpath = dir + "/" + filename;
         
@@ -79,7 +55,8 @@ std::vector<std::pair<std::string, int>> load_documents(const std::string& dir, 
             std::istreambuf_iterator<char>()
         );
 
-        documents.emplace_back(content, i);
+        documents.emplace_back(content, i); // O ID é o próprio i
+        //std::cout << "Carregado: " << filename << " (ID: " << i << ")\n";
         count++;
     }
 
@@ -90,19 +67,8 @@ std::vector<std::pair<std::string, int>> load_documents(const std::string& dir, 
     return documents;
 }
 
-/**
- * @brief Indexa palavras de documentos em uma árvore binária.
- * @param tree Ponteiro para a árvore binária de destino.
- * @param docs Vetor de documentos (conteúdo + ID).
- * @param insert_function Função de inserção específica (ex: AVL::insert).
- * @return Vetor de resultados de inserção para cada palavra.
- * @details Processa cada palavra dos documentos e insere na árvore usando a função especificada.
- */
-std::vector<InsertResult> index_documents(
-    BinaryTree* tree,
-    const std::vector<std::pair<std::string, int>>& docs,
-    std::function<InsertResult(BinaryTree*, const std::string&, int)> insert_function
-) {
+std::vector<InsertResult> index_documents(BinaryTree* tree, const std::vector<std::pair<std::string, int>>& docs,
+                     std::function<InsertResult(BinaryTree*, const std::string&, int)> insert_function) {
     std::vector<InsertResult> results;
     for (const auto& doc : docs) {
         std::vector<std::string> words = process_words(doc.first);
