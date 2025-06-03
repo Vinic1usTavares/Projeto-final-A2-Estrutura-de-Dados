@@ -1,13 +1,11 @@
 # Ignorar arquivos objeto compilados
 *.o
 *.obj
-
-
-# Ignorar arquivos executáveis (Linux/Mac/Windows)
 *.out
 *.exe
 
-
+*.vscode
+.json
 
 # Ignorar arquivos temporários e backups
 *~

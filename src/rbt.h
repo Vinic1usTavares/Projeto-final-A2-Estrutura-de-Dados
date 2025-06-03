@@ -2,10 +2,10 @@
 #define RBT_H
 
 #include <string>
-#include "tree_utils.h"  //inclui a definição de BinaryTree e Node
+#include "tree_utils.h" 
 
 namespace RBT {
-
+    
     //cria uma nova árvore rbt
     BinaryTree* create();
 
