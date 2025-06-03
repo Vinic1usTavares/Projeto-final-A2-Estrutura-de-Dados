@@ -82,17 +82,12 @@ struct SearchResult {
     int numComparisons;
 };
 
-<<<<<<< HEAD
 /**
  * @brief Função auxiliar para impressão recursiva do índice
  * @param node Nó atual sendo processado
  * @param count Contador de itens impressos (passado por referência)
  * @param max Número máximo de itens a exibir
  */
-=======
-
-// Funções
->>>>>>> origin/main
 void printIndexAux(Node* node, int& count, int max);
 
 /**
@@ -131,8 +126,4 @@ void destroyNode(Node* node);
  */
 void destroyNodeRBT(Node* node, BinaryTree* tree);
 
-<<<<<<< HEAD
 #endif // TREE_UTILS_H
-=======
-#endif
->>>>>>> origin/main
