@@ -1,4 +1,6 @@
 #include "bst.h"
+#include <algorithm>
+
 
 namespace BST
 {
