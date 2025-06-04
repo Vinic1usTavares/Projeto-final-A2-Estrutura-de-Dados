@@ -6,7 +6,7 @@ OBJ_DIR := obj
 # Compilador e flags
 CXX := g++
 CXXFLAGS := -Wall -std=c++17 -I$(SRC_DIR)
-LDFLAGS := -mconsole  # FORÇA PROGRAMA DE TERMINAL NO WINDOWS
+LDFLAGS := #-mconsole  # FORÇA PROGRAMA DE TERMINAL NO WINDOWS
 
 # Fontes principais
 BST_MAIN := $(SRC_DIR)/main_bst.cpp
