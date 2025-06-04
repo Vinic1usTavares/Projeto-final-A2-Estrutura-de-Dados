@@ -1,15 +1,24 @@
 #include "bst.h"
 #include "data.h"
+#include "test.h"
 #include <iostream>
 #include <string>
 
 int main(int argc, char* argv[]) {
-    if (argc < 4) {
-        std::cerr << "Uso: ./bst <search|stats> <n_docs> <diretorio>\n";
+    if (argc < 2) {
+        std::cerr << "Uso: ./bin/bst <search|stats> <n_docs> <diretorio>\n";
+        std::cerr << "     ./bin/bst tests   (roda os testes unitários)\n";
         return 1;
-    }
+}
 
     std::string command = argv[1];
+
+    // Caso de testes
+    if(command == "tests") {
+        run_bst_tests();
+        return 0;
+    }
+
     int n_docs = std::stoi(argv[2]);
     std::string dir = argv[3];
 
@@ -20,11 +29,15 @@ int main(int argc, char* argv[]) {
 
     if (command == "search") {
         std::string query;
-
-        while (true) {
-            std::cout << "Digite --quit para abortar a execução." << std::endl;
+        bool running = true;
+        while (running) {
+            std::cout << "Digite --quit para abortar a execucao." << std::endl;
             std::cout << "Digite uma palavra para buscar: ";
             std::cin >> query;
+            if(query == "--quit") {
+                running = false;
+                break;
+            }
             SearchResult result = BST::search(tree, query);
             if(result.found == 0) std::cout << query << " nao esta presente nos textos \n";
             else{
@@ -38,7 +51,7 @@ int main(int argc, char* argv[]) {
     } else if (command == "stats") {
         // imprimir estatísticas
         printIndex(tree);
-    } // else if(command == "tests")
+    }
     
 
     BST::destroy(tree);
