@@ -16,7 +16,7 @@ namespace RBT {
     SearchResult search(BinaryTree* tree, const std::string& word);
 
     //libera memória da árvore
-    void deleteTree(BinaryTree* tree);
+    void destroy(BinaryTree* tree);
 
 } //namespace RBT
 

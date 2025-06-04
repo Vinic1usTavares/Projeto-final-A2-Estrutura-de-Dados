@@ -120,5 +120,24 @@ namespace RBT {
     }
     tree->root->isRed = 0;
 }
+    InsertResult insert(BinaryTree* tree, const std::string& word, int documentId) {
+    // TODO: implementar inserção na árvore rubro-negra
+    return InsertResult{}; // valor de retorno temporário para compilar
+}
+
+    void destroyNode(Node* node, Node* NIL) {
+    if (node == nullptr || node == NIL) return;
+    destroyNode(node->left, NIL);
+    destroyNode(node->right, NIL);
+    delete node;
+}
+
+    void destroy(BinaryTree* tree) {
+        if (tree == nullptr) return;
+        destroyNode(tree->root, tree->NIL);
+        delete tree;
+    }
+
+
 
 }

@@ -56,7 +56,6 @@ void printTreeNode(Node* node, std::string prefix, bool isLeft) {
 void printTree(BinaryTree* tree) {
     if (tree == nullptr) return; //checks if it is not a null pointer
 
-    Node* root = tree->root;
     std::cout << tree->root->word << std::endl;
 
 
