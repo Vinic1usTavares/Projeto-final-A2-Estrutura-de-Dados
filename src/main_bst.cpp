@@ -1,15 +1,24 @@
 #include "bst.h"
 #include "data.h"
+#include "test.h"
 #include <iostream>
 #include <string>
 
 int main(int argc, char* argv[]) {
-    if (argc < 4) {
+    if (argc < 2) {
         std::cerr << "Uso: ./bst <search|stats> <n_docs> <diretorio>\n";
+        std::cerr << "     ./bst tests   (roda os testes unitários)\n";
         return 1;
-    }
+}
 
     std::string command = argv[1];
+
+    // Caso de testes
+    if(command == "tests") {
+        run_bst_tests();
+        return 0;
+    }
+
     int n_docs = std::stoi(argv[2]);
     std::string dir = argv[3];
 
@@ -38,7 +47,7 @@ int main(int argc, char* argv[]) {
     } else if (command == "stats") {
         // imprimir estatísticas
         printIndex(tree);
-    } // else if(command == "tests")
+    }
     
 
     BST::destroy(tree);

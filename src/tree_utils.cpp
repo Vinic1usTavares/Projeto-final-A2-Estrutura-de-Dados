@@ -37,6 +37,14 @@ Node* createNode() {
     return node;
 }
 
+void destroyNode(Node* node) {
+    if (node != nullptr) {
+        destroyNode(node->left);
+        destroyNode(node->right);
+        delete node;
+    }
+}
+
 
 // Função auxiliar para imprimir cada nó recursivamente
 void printTreeNode(Node* node, std::string prefix, bool isLeft) {
