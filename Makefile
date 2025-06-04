@@ -35,7 +35,7 @@ RBT_OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(RBT_SRCS)) $(COMMON_OBJ
 DATA_OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(DATA_SRCS)) $(COMMON_OBJS)
 
 # Alvo principal
-all: prepare bst avl rbt test_data
+all: prepare bst avl test_data
 
 # Criar diretórios
 prepare:
