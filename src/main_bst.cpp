@@ -6,8 +6,8 @@
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        std::cerr << "Uso: ./bst <search|stats> <n_docs> <diretorio>\n";
-        std::cerr << "     ./bst tests   (roda os testes unitários)\n";
+        std::cerr << "Uso: ./bin/bst <search|stats> <n_docs> <diretorio>\n";
+        std::cerr << "     ./bin/bst tests   (roda os testes unitários)\n";
         return 1;
 }
 
@@ -29,11 +29,15 @@ int main(int argc, char* argv[]) {
 
     if (command == "search") {
         std::string query;
-
-        while (true) {
-            std::cout << "Digite --quit para abortar a execução." << std::endl;
+        bool running = true;
+        while (running) {
+            std::cout << "Digite --quit para abortar a execucao." << std::endl;
             std::cout << "Digite uma palavra para buscar: ";
             std::cin >> query;
+            if(query == "--quit") {
+                running = false;
+                break;
+            }
             SearchResult result = BST::search(tree, query);
             if(result.found == 0) std::cout << query << " nao esta presente nos textos \n";
             else{
