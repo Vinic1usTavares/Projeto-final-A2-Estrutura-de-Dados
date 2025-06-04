@@ -121,9 +121,55 @@ namespace RBT {
     tree->root->isRed = 0;
 }
     InsertResult insert(BinaryTree* tree, const std::string& word, int documentId) {
-    // TODO: implementar inserção na árvore rubro-negra
-    return InsertResult{}; // valor de retorno temporário para compilar
+    auto start = std::chrono::high_resolution_clock::now();
+    int comparisons = 0;
+
+    // Cria novo nó
+    Node* newNode = new Node;
+    newNode->word = word;
+    newNode->documentIds.push_back(documentId);
+    newNode->isRed = 1;
+    newNode->left = newNode->right = newNode->parent = tree->NIL;
+
+    // Percorre a árvore para inserir
+    Node* parent = nullptr;
+    Node* current = tree->root;
+
+    while (current != tree->NIL) {
+        parent = current;
+        comparisons++;
+        if (word < current->word) {
+            current = current->left;
+        } else if (word > current->word) {
+            current = current->right;
+        } else {
+            // Palavra já existe, só adiciona docId se não for repetido
+            if (current->documentIds.empty() || current->documentIds.back() != documentId)
+                current->documentIds.push_back(documentId);
+
+            auto end = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<double, std::milli> duration = end - start;
+            return {comparisons, duration.count()};
+        }
+    }
+
+    newNode->parent = parent;
+
+    if (parent == nullptr) {
+        tree->root = newNode;
+    } else if (word < parent->word) {
+        parent->left = newNode;
+    } else {
+        parent->right = newNode;
+    }
+
+    fixInsertion(tree, newNode);
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> duration = end - start;
+    return {comparisons, duration.count()};
 }
+
 
     void destroyNode(Node* node, Node* NIL) {
     if (node == nullptr || node == NIL) return;
@@ -137,7 +183,7 @@ namespace RBT {
         destroyNode(tree->root, tree->NIL);
         delete tree;
     }
-
-
-
+    
 }
+
+

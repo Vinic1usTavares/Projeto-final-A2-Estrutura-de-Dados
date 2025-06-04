@@ -1,18 +1,22 @@
-#include <iostream>
 #include "rbt.h"
 #include "tree_utils.h"
-using namespace RBT;
-
+#include <iostream>
 
 int main() {
+    // Cria a árvore
     BinaryTree* tree = RBT::create();
 
-    RBT::insert(tree, "apple", 1);
-    RBT::insert(tree, "banana", 2);
-    RBT::insert(tree, "apple", 3);
+    // Insere palavras com IDs
+    RBT::insert(tree, "banana", 1);
+    RBT::insert(tree, "abacate", 1);
+    RBT::insert(tree, "caju", 2);
+    RBT::insert(tree, "damasco", 2);
 
+    // Imprime a árvore
     printTree(tree);
 
-    RBT::deleteTree(tree);
+    // Libera memória
+    RBT::destroy(tree);
+
     return 0;
 }
