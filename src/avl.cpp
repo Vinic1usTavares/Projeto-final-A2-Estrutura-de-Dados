@@ -7,6 +7,7 @@
 
 namespace AVL {
 
+// Cria uma nova árvore AVL vazia
 BinaryTree* create() {
     BinaryTree* tree = new BinaryTree;
     tree->root = nullptr;
@@ -14,19 +15,23 @@ BinaryTree* create() {
     return tree;
 }
 
+// Retorna a altura de um nó (0 se for nulo)
 int height(Node* node) {
     return (node == nullptr) ? 0 : node->height;
 }
 
+// Retorna o maior entre dois inteiros
 int max(int a, int b) {
     return (a > b) ? a : b;
 }
 
+// Calcula o fator de balanceamento de um nó (altura da subárvore esquerda - direita)
 int balanceFactor(Node* node) {
     if (node == nullptr) return 0;
     return height(node->left) - height(node->right);
 }
 
+// Rotação simples para a direita
 Node* rotateRight(Node* y) {
     Node* x = y->left;
     Node* T2 = x->right;
@@ -40,6 +45,7 @@ Node* rotateRight(Node* y) {
     return x;
 }
 
+// Rotação simples para a esquerda
 Node* rotateLeft(Node* x) {
     Node* y = x->right;
     Node* T2 = y->left;
@@ -53,6 +59,7 @@ Node* rotateLeft(Node* x) {
     return y;
 }
 
+// Função recursiva auxiliar para inserção e balanceamento
 Node* insertAux(Node* node, const std::string& word, int docId, int& comparisons) {
     if (node == nullptr) {
         Node* newNode = createNode();
@@ -67,35 +74,38 @@ Node* insertAux(Node* node, const std::string& word, int docId, int& comparisons
     } else if (word > node->word) {
         node->right = insertAux(node->right, word, docId, comparisons);
     } else {
+        // Palavra já está na árvore: adiciona ID do documento se ainda não estiver presente
         if (node->documentIds.empty() || node->documentIds.back() != docId) {
             node->documentIds.push_back(docId);
         }
         return node;
     }
 
+    // Atualiza altura do nó atual
     node->height = 1 + max(height(node->left), height(node->right));
 
     int balance = balanceFactor(node);
 
-    // Casos de rotação
+    // Casos de desbalanceamento e rotação
     if (balance > 1 && word < node->left->word) {
-        return rotateRight(node);
+        return rotateRight(node); // Caso esquerda-esquerda
     }
     if (balance < -1 && word > node->right->word) {
-        return rotateLeft(node);
+        return rotateLeft(node); // Caso direita-direita
     }
     if (balance > 1 && word > node->left->word) {
-        node->left = rotateLeft(node->left);
+        node->left = rotateLeft(node->left); // Caso esquerda-direita
         return rotateRight(node);
     }
     if (balance < -1 && word < node->right->word) {
-        node->right = rotateRight(node->right);
+        node->right = rotateRight(node->right); // Caso direita-esquerda
         return rotateLeft(node);
     }
 
-    return node;
+    return node; // Retorna nó já balanceado
 }
 
+// Insere uma palavra na árvore AVL e retorna estatísticas da inserção
 InsertResult insert(BinaryTree* tree, const std::string& word, int documentId) {
     auto start = std::chrono::high_resolution_clock::now();
     int comparisons = 0;
@@ -107,6 +117,7 @@ InsertResult insert(BinaryTree* tree, const std::string& word, int documentId) {
     return {comparisons, duration.count()};
 }
 
+// Busca uma palavra na árvore AVL e retorna informações da busca
 SearchResult search(BinaryTree* tree, const std::string& word) {
     auto start = std::chrono::high_resolution_clock::now();
     int comparisons = 0;
@@ -132,6 +143,7 @@ SearchResult search(BinaryTree* tree, const std::string& word) {
     return {0, {}, duration.count(), comparisons};
 }
 
+// Libera a memória ocupada pela árvore
 void destroy(BinaryTree* tree) {
     if (tree != nullptr) {
         destroyNode(tree->root);
