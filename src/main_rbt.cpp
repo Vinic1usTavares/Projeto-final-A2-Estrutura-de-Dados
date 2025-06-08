@@ -13,6 +13,6 @@ int main() {
 
     printTree(tree);
 
-    RBT::deleteTree(tree);
+    RBT::destroy(tree);
     return 0;
 }
