@@ -5,6 +5,7 @@ Esta entrega contempla a implementação funcional da Árvore Binária de Busca 
 ## Estrutura Entregue
 
 - Implementação da estrutura BST com suporte à inserção e busca.
+- Implementação da estrutura AVL com suporte à inserção balanceada e busca.
 - Funções de leitura de documentos e processamento de palavras.
 - CLI para execução de comandos de busca e estatísticas.
 - Testes unitários para validação da funcionalidade da BST e do módulo de dados.
@@ -45,6 +46,24 @@ make test_data
 **Execução dos testes da BST:**
 ```bash
 ./bin/bst tests
+```
+
+### Execução da AVL:
+
+```bash
+./bin/avl <search> <número de documentos> <diretorio de dados>
+```
+
+**Exemplo de busca:**
+
+```bash
+./bin/avl search 10 ./data
+```
+
+**Execução dos testes da AVL:**
+
+```bash
+./bin/avl tests
 ```
 
 ### Execução dos testes do módulo `data`:
