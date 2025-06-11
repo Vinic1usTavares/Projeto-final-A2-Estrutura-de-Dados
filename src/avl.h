@@ -29,8 +29,48 @@ namespace AVL {
 
     // Libera toda a memória alocada pela árvore AVL.
     // Parâmetro:
-    // - tree: ponteiro para a árvore AVL a ser destruída
+    // - tree: ponteiro para a árvore AVL a ser destruída.
     void destroy(BinaryTree* tree);
+
+    // Retorna a altura de um nó da árvore AVL.
+    // Parâmetro:
+    // - node: ponteiro para o nó cuja altura será retornada.
+    // Retorna a altura do nó (0 se for nulo).
+    int height(Node* node);
+
+    // Retorna o maior entre dois valores inteiros.
+    // Parâmetros:
+    // - a: primeiro valor inteiro.
+    // - b: segundo valor inteiro.
+    // Retorna o maior valor entre a e b.
+    int max(int a, int b);
+
+    // Calcula o fator de balanceamento de um nó da árvore AVL.
+    // Parâmetro:
+    // - node: ponteiro para o nó cujo fator de balanceamento será calculado.
+    // Retorna a diferença entre as alturas das subárvores esquerda e direita.
+    int balanceFactor(Node* node);
+
+    // Executa uma rotação simples para a direita.
+    // Parâmetro:
+    // - y: ponteiro para o nó desbalanceado.
+    // Retorna o novo nó raiz da subárvore após a rotação.
+    Node* rotateRight(Node* y);
+
+    // Executa uma rotação simples para a esquerda.
+    // Parâmetro:
+    // - x: ponteiro para o nó desbalanceado.
+    // Retorna o novo nó raiz da subárvore após a rotação.
+    Node* rotateLeft(Node* x);
+
+    // Função auxiliar recursiva para inserir uma palavra na árvore AVL e realizar balanceamento.
+    // Parâmetros:
+    // - node: ponteiro para o nó atual da árvore.
+    // - word: palavra a ser inserida.
+    // - docId: ID do documento onde a palavra foi encontrada.
+    // - comparisons: referência para contador de comparações realizadas durante a inserção.
+    // Retorna o ponteiro para o nó atualizado após inserção e balanceamento.
+    Node* insertAux(Node* node, const std::string& word, int docId, int& comparisons);
 }
 
 #endif

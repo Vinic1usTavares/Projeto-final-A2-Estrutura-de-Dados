@@ -20,7 +20,7 @@ COMMON_SRCS := $(SRC_DIR)/tree_utils.cpp $(SRC_DIR)/data.cpp
 
 # Fontes de cada estrutura
 BST_SRCS := $(SRC_DIR)/bst.cpp $(SRC_DIR)/test_bst.cpp
-AVL_SRCS := $(SRC_DIR)/avl.cpp
+AVL_SRCS := $(SRC_DIR)/avl.cpp $(SRC_DIR)/test_avl.cpp
 RBT_SRCS := $(SRC_DIR)/rbt.cpp
 
 # Fonte para data tests
