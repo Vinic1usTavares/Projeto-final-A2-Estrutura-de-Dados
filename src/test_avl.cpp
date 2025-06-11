@@ -7,30 +7,30 @@
 using namespace AVL;
 
 void test_create_destroy_avl() {
-    std::cout << "[TESTE] Criar e destruir árvore AVL...\n";
+    std::cout << "[TESTE] Criar e destruir arvore AVL...\n";
 
     std::cout << "  1. Chamando: BinaryTree* tree = create();\n";
     BinaryTree* tree = create();
     std::cout << "     -> Ponteiro retornado: " << tree << "\n";
 
-    std::cout << "  2. Verificando se a árvore foi criada corretamente (tree != nullptr)...\n";
+    std::cout << "  2. Verificando se a arvore foi criada corretamente (tree != nullptr)...\n";
     assert(tree != nullptr);
-    std::cout << "     -> OK: Ponteiro não é nulo\n";
+    std::cout << "     -> OK: Ponteiro nao e nulo\n";
 
-    std::cout << "  3. Verificando se a raiz da árvore está vazia (tree->root == nullptr)...\n";
+    std::cout << "  3. Verificando se a raiz da arvore esta vazia (tree->root == nullptr)...\n";
     assert(tree->root == nullptr);
-    std::cout << "     -> OK: Raiz da árvore é nula\n";
+    std::cout << "     -> OK: Raiz da arvore e nula\n";
 
     std::cout << "  4. Chamando: destroy(tree);\n";
     destroy(tree);
-    std::cout << "     -> OK: Memória liberada com sucesso\n";
+    std::cout << "     -> OK: Memoria liberada com sucesso\n";
 
-    std::cout << "Teste concluído com sucesso: criação e destruição funcionam corretamente.\n";
+    std::cout << "Teste concluido com sucesso: criacao e destruicao funcionam corretamente.\n";
     std::cout << std::string(60, '-') << "\n";
 }
 
 void test_insert_single_word_avl() {
-    std::cout << "[TESTE] Inserção de uma única palavra (AVL)...\n";
+    std::cout << "[TESTE] Insercao de uma única palavra (AVL)...\n";
 
     std::cout << "  1. Chamando: BinaryTree* tree = create();\n";
     BinaryTree* tree = create();
@@ -38,29 +38,29 @@ void test_insert_single_word_avl() {
     std::cout << "  2. Chamando: InsertResult res = insert(tree, \"balanceada\", 1);\n";
     InsertResult res = insert(tree, "balanceada", 1);
 
-    std::cout << "  3. Verificando se a raiz da árvore foi atualizada corretamente...\n";
+    std::cout << "  3. Verificando se a raiz da arvore foi atualizada corretamente...\n";
     assert(tree->root != nullptr);
     assert(tree->root->word == "balanceada");
-    std::cout << "     -> OK: Raiz contém a palavra 'balanceada'\n";
+    std::cout << "     -> OK: Raiz contem a palavra 'balanceada'\n";
 
     std::cout << "  4. Verificando se o ID do documento foi armazenado corretamente...\n";
     assert(tree->root->documentIds.size() == 1);
     assert(tree->root->documentIds[0] == 1);
     std::cout << "     -> OK: Documento 1 registrado\n";
 
-    std::cout << "  5. Verificando número de comparações retornado (res.numComparisons == 0)...\n";
+    std::cout << "  5. Verificando número de comparacões retornado (res.numComparisons == 0)...\n";
     assert(res.numComparisons == 0);
-    std::cout << "     -> OK: Nenhuma comparação necessária (árvore estava vazia)\n";
+    std::cout << "     -> OK: Nenhuma comparacao necessaria (arvore estava vazia)\n";
 
     std::cout << "  6. Chamando: destroy(tree);\n";
     destroy(tree);
 
-    std::cout << "Teste concluído com sucesso: inserção de palavra única verificada corretamente.\n";
+    std::cout << "Teste concluido com sucesso: insercao de palavra única verificada corretamente.\n";
     std::cout << std::string(60, '-') << "\n";
 }
 
 void test_insert_duplicate_document_avl() {
-    std::cout << "[TESTE] Inserção duplicada de mesmo documento (AVL)...\n";
+    std::cout << "[TESTE] Insercao duplicada de mesmo documento (AVL)...\n";
 
     std::cout << "  1. Chamando: BinaryTree* tree = create();\n";
     BinaryTree* tree = create();
@@ -71,23 +71,23 @@ void test_insert_duplicate_document_avl() {
     std::cout << "  3. Chamando novamente: insert(tree, \"avl\", 1);\n";
     insert(tree, "avl", 1);
 
-    std::cout << "  4. Verificando se a raiz contém a palavra correta...\n";
+    std::cout << "  4. Verificando se a raiz contem a palavra correta...\n";
     assert(tree->root->word == "avl");
-    std::cout << "     -> OK: Raiz contém a palavra 'avl'\n";
+    std::cout << "     -> OK: Raiz contem a palavra 'avl'\n";
 
-    std::cout << "  5. Verificando se o ID duplicado não foi adicionado...\n";
+    std::cout << "  5. Verificando se o ID duplicado nao foi adicionado...\n";
     assert(tree->root->documentIds.size() == 1);
-    std::cout << "     -> OK: Documento duplicado não foi inserido novamente\n";
+    std::cout << "     -> OK: Documento duplicado nao foi inserido novamente\n";
 
     std::cout << "  6. Chamando: destroy(tree);\n";
     destroy(tree);
 
-    std::cout << "Teste concluído com sucesso: duplicação de documento corretamente evitada.\n";
+    std::cout << "Teste concluido com sucesso: duplicacao de documento corretamente evitada.\n";
     std::cout << std::string(60, '-') << "\n";
 }
 
 void test_insert_same_word_different_docs_avl() {
-    std::cout << "[TESTE] Inserção da mesma palavra em documentos diferentes (AVL)...\n";
+    std::cout << "[TESTE] Insercao da mesma palavra em documentos diferentes (AVL)...\n";
 
     std::cout << "  1. Chamando: BinaryTree* tree = create();\n";
     BinaryTree* tree = create();
@@ -98,20 +98,20 @@ void test_insert_same_word_different_docs_avl() {
     std::cout << "  3. Chamando: insert(tree, \"rotacao\", 2);\n";
     insert(tree, "rotacao", 2);
 
-    std::cout << "  4. Verificando se a raiz contém a palavra correta...\n";
+    std::cout << "  4. Verificando se a raiz contem a palavra correta...\n";
     assert(tree->root->word == "rotacao");
-    std::cout << "     -> OK: Raiz contém a palavra 'rotacao'\n";
+    std::cout << "     -> OK: Raiz contem a palavra 'rotacao'\n";
 
     std::cout << "  5. Verificando se ambos os IDs de documento foram armazenados...\n";
     assert(tree->root->documentIds.size() == 2);
     assert(tree->root->documentIds[0] == 1);
     assert(tree->root->documentIds[1] == 2);
-    std::cout << "     -> OK: IDs 1 e 2 associados corretamente à palavra\n";
+    std::cout << "     -> OK: IDs 1 e 2 associados corretamente a palavra\n";
 
     std::cout << "  6. Chamando: destroy(tree);\n";
     destroy(tree);
 
-    std::cout << "Teste concluído com sucesso: inserção da palavra em múltiplos documentos verificada corretamente.\n";
+    std::cout << "Teste concluido com sucesso: insercao da palavra em múltiplos documentos verificada corretamente.\n";
     std::cout << std::string(60, '-') << "\n";
 }
 
@@ -131,19 +131,19 @@ void test_search_found_avl() {
     assert(res.found == 1);
     std::cout << "     -> OK: Palavra encontrada\n";
 
-    std::cout << "  5. Verificando se o documento está corretamente listado...\n";
+    std::cout << "  5. Verificando se o documento esta corretamente listado...\n";
     assert(res.documentIds.size() == 1);
     assert(res.documentIds[0] == 10);
     std::cout << "     -> OK: Documento 10 encontrado na lista\n";
 
-    std::cout << "  6. Verificando número de comparações realizadas...\n";
+    std::cout << "  6. Verificando número de comparacões realizadas...\n";
     assert(res.numComparisons >= 1);
-    std::cout << "     -> OK: Comparações realizadas: " << res.numComparisons << "\n";
+    std::cout << "     -> OK: Comparacões realizadas: " << res.numComparisons << "\n";
 
     std::cout << "  7. Chamando: destroy(tree);\n";
     destroy(tree);
 
-    std::cout << "Teste concluído com sucesso: busca por palavra existente validada corretamente.\n";
+    std::cout << "Teste concluido com sucesso: busca por palavra existente validada corretamente.\n";
     std::cout << std::string(60, '-') << "\n";
 }
 
@@ -159,31 +159,31 @@ void test_search_not_found_avl() {
     std::cout << "  3. Chamando: SearchResult res = search(tree, \"rebalancear\");\n";
     SearchResult res = search(tree, "rebalancear");
 
-    std::cout << "  4. Verificando se a palavra foi corretamente marcada como não encontrada...\n";
+    std::cout << "  4. Verificando se a palavra foi corretamente marcada como nao encontrada...\n";
     assert(res.found == 0);
-    std::cout << "     -> OK: Palavra não encontrada\n";
+    std::cout << "     -> OK: Palavra nao encontrada\n";
 
-    std::cout << "  5. Verificando se a lista de documentos está vazia...\n";
+    std::cout << "  5. Verificando se a lista de documentos esta vazia...\n";
     assert(res.documentIds.empty());
     std::cout << "     -> OK: Nenhum documento associado retornado\n";
 
-    std::cout << "  6. Verificando número de comparações realizadas...\n";
+    std::cout << "  6. Verificando número de comparacões realizadas...\n";
     assert(res.numComparisons >= 1);
-    std::cout << "     -> OK: Comparações realizadas: " << res.numComparisons << "\n";
+    std::cout << "     -> OK: Comparacões realizadas: " << res.numComparisons << "\n";
 
     std::cout << "  7. Chamando: destroy(tree);\n";
     destroy(tree);
 
-    std::cout << "Teste concluído com sucesso: busca por palavra inexistente tratada corretamente.\n";
+    std::cout << "Teste concluido com sucesso: busca por palavra inexistente tratada corretamente.\n";
     std::cout << std::string(60, '-') << "\n";
 }
 
 void test_rotate_right_avl() {
-    std::cout << "[TESTE] Rotação simples à direita (AVL)...\n";
+    std::cout << "[TESTE] Rotacao simples a direita (AVL)...\n";
 
-    std::cout << "  1. Construindo manualmente um pequeno cenário de desbalanceamento...\n";
+    std::cout << "  1. Construindo manualmente um pequeno cenario de desbalanceamento...\n";
 
-    // Criar um nó y com subárvore esquerda pesada (x)
+    // Criar um no y com subarvore esquerda pesada (x)
     Node* y = createNode();
     y->word = "c";
 
@@ -208,14 +208,14 @@ void test_rotate_right_avl() {
     std::cout << "  2. Chamando: rotateRight(y);\n";
     Node* newRoot = rotateRight(y);
 
-    std::cout << "  3. Verificando se a nova raiz é 'b'...\n";
+    std::cout << "  3. Verificando se a nova raiz e 'b'...\n";
     assert(newRoot->word == "b");
-    std::cout << "     -> OK: Nova raiz é 'b'\n";
+    std::cout << "     -> OK: Nova raiz e 'b'\n";
 
     std::cout << "  4. Verificando filhos da nova raiz...\n";
     assert(newRoot->left == a);
     assert(newRoot->right == y);
-    std::cout << "     -> OK: Estrutura da árvore correta após rotação\n";
+    std::cout << "     -> OK: Estrutura da arvore correta apos rotacao\n";
 
     std::cout << "  5. Verificando se alturas foram atualizadas corretamente...\n";
     assert(a->height == 1);
@@ -223,19 +223,19 @@ void test_rotate_right_avl() {
     assert(newRoot->height == 2);
     std::cout << "     -> OK: Alturas consistentes\n";
 
-    std::cout << "  6. Limpando memória manualmente...\n";
-    destroyNode(newRoot);  // isso já libera todos os nós recursivamente
+    std::cout << "  6. Limpando memoria manualmente...\n";
+    destroyNode(newRoot);  // isso ja libera todos os nos recursivamente
 
-    std::cout << "Teste concluído com sucesso: rotação simples à direita validada corretamente.\n";
+    std::cout << "Teste concluido com sucesso: rotacao simples a direita validada corretamente.\n";
     std::cout << std::string(60, '-') << "\n";
 }
 
 void test_rotate_left_avl() {
-    std::cout << "[TESTE] Rotação simples à esquerda (AVL)...\n";
+    std::cout << "[TESTE] Rotacao simples a esquerda (AVL)...\n";
 
-    std::cout << "  1. Construindo manualmente um pequeno cenário de desbalanceamento...\n";
+    std::cout << "  1. Construindo manualmente um pequeno cenario de desbalanceamento...\n";
 
-    // Criar um nó x com subárvore direita pesada (y)
+    // Criar um no x com subarvore direita pesada (y)
     Node* x = createNode();
     x->word = "a";
 
@@ -260,14 +260,14 @@ void test_rotate_left_avl() {
     std::cout << "  2. Chamando: rotateLeft(x);\n";
     Node* newRoot = rotateLeft(x);
 
-    std::cout << "  3. Verificando se a nova raiz é 'b'...\n";
+    std::cout << "  3. Verificando se a nova raiz e 'b'...\n";
     assert(newRoot->word == "b");
-    std::cout << "     -> OK: Nova raiz é 'b'\n";
+    std::cout << "     -> OK: Nova raiz e 'b'\n";
 
     std::cout << "  4. Verificando filhos da nova raiz...\n";
     assert(newRoot->left == x);
     assert(newRoot->right == z);
-    std::cout << "     -> OK: Estrutura da árvore correta após rotação\n";
+    std::cout << "     -> OK: Estrutura da arvore correta apos rotacao\n";
 
     std::cout << "  5. Verificando se alturas foram atualizadas corretamente...\n";
     assert(x->height == 1);
@@ -275,19 +275,19 @@ void test_rotate_left_avl() {
     assert(newRoot->height == 2);
     std::cout << "     -> OK: Alturas consistentes\n";
 
-    std::cout << "  6. Limpando memória manualmente...\n";
-    destroyNode(newRoot);  // isso já libera todos os nós recursivamente
+    std::cout << "  6. Limpando memoria manualmente...\n";
+    destroyNode(newRoot);  // isso ja libera todos os nos recursivamente
 
-    std::cout << "Teste concluído com sucesso: rotação simples à esquerda validada corretamente.\n";
+    std::cout << "Teste concluido com sucesso: rotacao simples a esquerda validada corretamente.\n";
     std::cout << std::string(60, '-') << "\n";
 }
 
 void test_balance_factor_avl() {
-    std::cout << "[TESTE] Cálculo do fator de balanceamento (AVL)...\n";
+    std::cout << "[TESTE] Calculo do fator de balanceamento (AVL)...\n";
 
-    std::cout << "  1. Construindo manualmente uma árvore com fator de balanceamento conhecido...\n";
+    std::cout << "  1. Construindo manualmente uma arvore com fator de balanceamento conhecido...\n";
 
-    // Criar um nó root
+    // Criar um no root
     Node* root = createNode();
     root->word = "b";
 
@@ -313,23 +313,23 @@ void test_balance_factor_avl() {
     std::cout << "  2. Chamando: balanceFactor(root);\n";
     int bf = balanceFactor(root);
 
-    std::cout << "  3. Verificando se o fator de balanceamento é correto (esperado: 1)...\n";
+    std::cout << "  3. Verificando se o fator de balanceamento e correto (esperado: 1)...\n";
     assert(bf == 1);
-    std::cout << "     -> OK: Fator de balanceamento é 1\n";
+    std::cout << "     -> OK: Fator de balanceamento e 1\n";
 
-    std::cout << "  4. Limpando memória manualmente...\n";
+    std::cout << "  4. Limpando memoria manualmente...\n";
     destroyNode(root);  // isso libera root e recursivamente left e right
 
-    std::cout << "Teste concluído com sucesso: cálculo do fator de balanceamento validado corretamente.\n";
+    std::cout << "Teste concluido com sucesso: calculo do fator de balanceamento validado corretamente.\n";
     std::cout << std::string(60, '-') << "\n";
 }
 
 void test_height_avl() {
-    std::cout << "[TESTE] Cálculo da altura do nó (AVL)...\n";
+    std::cout << "[TESTE] Calculo da altura do no (AVL)...\n";
 
-    std::cout << "  1. Construindo manualmente uma árvore pequena com alturas conhecidas...\n";
+    std::cout << "  1. Construindo manualmente uma arvore pequena com alturas conhecidas...\n";
 
-    // Criar nós
+    // Criar nos
     Node* root = createNode();
     root->word = "m";
 
@@ -360,72 +360,72 @@ void test_height_avl() {
     int h_root = height(root);
     std::cout << "  3. Verificando altura da raiz (esperado: 3)...\n";
     assert(h_root == 3);
-    std::cout << "     -> OK: Altura da raiz é 3\n";
+    std::cout << "     -> OK: Altura da raiz e 3\n";
 
     std::cout << "  4. Chamando: height(left);\n";
     int h_left = height(left);
-    std::cout << "  5. Verificando altura do nó 'f' (esperado: 2)...\n";
+    std::cout << "  5. Verificando altura do no 'f' (esperado: 2)...\n";
     assert(h_left == 2);
-    std::cout << "     -> OK: Altura do nó 'f' é 2\n";
+    std::cout << "     -> OK: Altura do no 'f' e 2\n";
 
     std::cout << "  6. Chamando: height(right);\n";
     int h_right = height(right);
-    std::cout << "  7. Verificando altura do nó 't' (esperado: 1)...\n";
+    std::cout << "  7. Verificando altura do no 't' (esperado: 1)...\n";
     assert(h_right == 1);
-    std::cout << "     -> OK: Altura do nó 't' é 1\n";
+    std::cout << "     -> OK: Altura do no 't' e 1\n";
 
     std::cout << "  8. Chamando: height(left_left);\n";
     int h_left_left = height(left_left);
-    std::cout << "  9. Verificando altura do nó 'b' (esperado: 1)...\n";
+    std::cout << "  9. Verificando altura do no 'b' (esperado: 1)...\n";
     assert(h_left_left == 1);
-    std::cout << "     -> OK: Altura do nó 'b' é 1\n";
+    std::cout << "     -> OK: Altura do no 'b' e 1\n";
 
     std::cout << " 10. Chamando: height(nullptr);\n";
     int h_null = height(nullptr);
-    std::cout << " 11. Verificando altura de nó nulo (esperado: 0)...\n";
+    std::cout << " 11. Verificando altura de no nulo (esperado: 0)...\n";
     assert(h_null == 0);
-    std::cout << "     -> OK: Altura de nó nulo é 0\n";
+    std::cout << "     -> OK: Altura de no nulo e 0\n";
 
-    std::cout << " 12. Limpando memória manualmente...\n";
-    destroyNode(root);  // libera todos os nós recursivamente
+    std::cout << " 12. Limpando memoria manualmente...\n";
+    destroyNode(root);  // libera todos os nos recursivamente
 
-    std::cout << "Teste concluído com sucesso: cálculo de altura validado corretamente.\n";
+    std::cout << "Teste concluido com sucesso: calculo de altura validado corretamente.\n";
     std::cout << std::string(60, '-') << "\n";
 }
 
 void test_max_avl() {
-    std::cout << "[TESTE] Função auxiliar max(a, b) (AVL)...\n";
+    std::cout << "[TESTE] Funcao auxiliar max(a, b) (AVL)...\n";
 
     std::cout << "  1. Chamando: max(3, 5);\n";
     int result1 = max(3, 5);
-    std::cout << "  2. Verificando se o resultado é 5...\n";
+    std::cout << "  2. Verificando se o resultado e 5...\n";
     assert(result1 == 5);
     std::cout << "     -> OK: max(3, 5) == 5\n";
 
     std::cout << "  3. Chamando: max(10, -4);\n";
     int result2 = max(10, -4);
-    std::cout << "  4. Verificando se o resultado é 10...\n";
+    std::cout << "  4. Verificando se o resultado e 10...\n";
     assert(result2 == 10);
     std::cout << "     -> OK: max(10, -4) == 10\n";
 
     std::cout << "  5. Chamando: max(-7, -2);\n";
     int result3 = max(-7, -2);
-    std::cout << "  6. Verificando se o resultado é -2...\n";
+    std::cout << "  6. Verificando se o resultado e -2...\n";
     assert(result3 == -2);
     std::cout << "     -> OK: max(-7, -2) == -2\n";
 
     std::cout << "  7. Chamando: max(0, 0);\n";
     int result4 = max(0, 0);
-    std::cout << "  8. Verificando se o resultado é 0...\n";
+    std::cout << "  8. Verificando se o resultado e 0...\n";
     assert(result4 == 0);
     std::cout << "     -> OK: max(0, 0) == 0\n";
 
-    std::cout << "Teste concluído com sucesso: função max(a, b) validada corretamente.\n";
+    std::cout << "Teste concluido com sucesso: funcao max(a, b) validada corretamente.\n";
     std::cout << std::string(60, '-') << "\n";
 }
 
 void test_insertAux_balance_left_left_case() {
-    std::cout << "[TESTE] Inserção com balanceamento (caso esquerda-esquerda, AVL)...\n";
+    std::cout << "[TESTE] Insercao com balanceamento (caso esquerda-esquerda, AVL)...\n";
 
     std::cout << "  1. Chamando: BinaryTree* tree = create();\n";
     BinaryTree* tree = create();
@@ -438,13 +438,13 @@ void test_insertAux_balance_left_left_case() {
     std::cout << "     -> Inserindo 'b'...\n";
     insert(tree, "b", 1);
 
-    std::cout << "     -> Inserindo 'a' (deve forçar rotação simples à direita)...\n";
+    std::cout << "     -> Inserindo 'a' (deve forcar rotacao simples a direita)...\n";
     insert(tree, "a", 1);
 
-    std::cout << "  3. Verificando se a raiz da árvore foi atualizada corretamente (esperado: 'b')...\n";
+    std::cout << "  3. Verificando se a raiz da arvore foi atualizada corretamente (esperado: 'b')...\n";
     assert(tree->root != nullptr);
     assert(tree->root->word == "b");
-    std::cout << "     -> OK: Nova raiz é 'b'\n";
+    std::cout << "     -> OK: Nova raiz e 'b'\n";
 
     std::cout << "  4. Verificando filhos da nova raiz...\n";
     assert(tree->root->left != nullptr);
@@ -453,17 +453,17 @@ void test_insertAux_balance_left_left_case() {
     assert(tree->root->right != nullptr);
     assert(tree->root->right->word == "c");
 
-    std::cout << "     -> OK: Estrutura da árvore após balanceamento é correta ('a' à esquerda, 'c' à direita)\n";
+    std::cout << "     -> OK: Estrutura da arvore apos balanceamento e correta ('a' a esquerda, 'c' a direita)\n";
 
-    std::cout << "  5. Limpando memória manualmente...\n";
+    std::cout << "  5. Limpando memoria manualmente...\n";
     destroy(tree);
 
-    std::cout << "Teste concluído com sucesso: caso esquerda-esquerda validado corretamente.\n";
+    std::cout << "Teste concluido com sucesso: caso esquerda-esquerda validado corretamente.\n";
     std::cout << std::string(60, '-') << "\n";
 }
 
 void test_insertAux_balance_left_right_case() {
-    std::cout << "[TESTE] Inserção com balanceamento (caso esquerda-direita, AVL)...\n";
+    std::cout << "[TESTE] Insercao com balanceamento (caso esquerda-direita, AVL)...\n";
 
     std::cout << "  1. Chamando: BinaryTree* tree = create();\n";
     BinaryTree* tree = create();
@@ -476,13 +476,13 @@ void test_insertAux_balance_left_right_case() {
     std::cout << "     -> Inserindo 'a'...\n";
     insert(tree, "a", 1);
 
-    std::cout << "     -> Inserindo 'b' (deve forçar rotação dupla esquerda-direita)...\n";
+    std::cout << "     -> Inserindo 'b' (deve forcar rotacao dupla esquerda-direita)...\n";
     insert(tree, "b", 1);
 
-    std::cout << "  3. Verificando se a raiz da árvore foi atualizada corretamente (esperado: 'b')...\n";
+    std::cout << "  3. Verificando se a raiz da arvore foi atualizada corretamente (esperado: 'b')...\n";
     assert(tree->root != nullptr);
     assert(tree->root->word == "b");
-    std::cout << "     -> OK: Nova raiz é 'b'\n";
+    std::cout << "     -> OK: Nova raiz e 'b'\n";
 
     std::cout << "  4. Verificando filhos da nova raiz...\n";
     assert(tree->root->left != nullptr);
@@ -491,17 +491,17 @@ void test_insertAux_balance_left_right_case() {
     assert(tree->root->right != nullptr);
     assert(tree->root->right->word == "c");
 
-    std::cout << "     -> OK: Estrutura da árvore após balanceamento é correta ('a' à esquerda, 'c' à direita)\n";
+    std::cout << "     -> OK: Estrutura da arvore apos balanceamento e correta ('a' a esquerda, 'c' a direita)\n";
 
-    std::cout << "  5. Limpando memória manualmente...\n";
+    std::cout << "  5. Limpando memoria manualmente...\n";
     destroy(tree);
 
-    std::cout << "Teste concluído com sucesso: caso esquerda-direita validado corretamente.\n";
+    std::cout << "Teste concluido com sucesso: caso esquerda-direita validado corretamente.\n";
     std::cout << std::string(60, '-') << "\n";
 }
 
 void test_insertAux_balance_right_left_case() {
-    std::cout << "[TESTE] Inserção com balanceamento (caso direita-esquerda, AVL)...\n";
+    std::cout << "[TESTE] Insercao com balanceamento (caso direita-esquerda, AVL)...\n";
 
     std::cout << "  1. Chamando: BinaryTree* tree = create();\n";
     BinaryTree* tree = create();
@@ -514,13 +514,13 @@ void test_insertAux_balance_right_left_case() {
     std::cout << "     -> Inserindo 'c'...\n";
     insert(tree, "c", 1);
 
-    std::cout << "     -> Inserindo 'b' (deve forçar rotação dupla direita-esquerda)...\n";
+    std::cout << "     -> Inserindo 'b' (deve forcar rotacao dupla direita-esquerda)...\n";
     insert(tree, "b", 1);
 
-    std::cout << "  3. Verificando se a raiz da árvore foi atualizada corretamente (esperado: 'b')...\n";
+    std::cout << "  3. Verificando se a raiz da arvore foi atualizada corretamente (esperado: 'b')...\n";
     assert(tree->root != nullptr);
     assert(tree->root->word == "b");
-    std::cout << "     -> OK: Nova raiz é 'b'\n";
+    std::cout << "     -> OK: Nova raiz e 'b'\n";
 
     std::cout << "  4. Verificando filhos da nova raiz...\n";
     assert(tree->root->left != nullptr);
@@ -529,17 +529,17 @@ void test_insertAux_balance_right_left_case() {
     assert(tree->root->right != nullptr);
     assert(tree->root->right->word == "c");
 
-    std::cout << "     -> OK: Estrutura da árvore após balanceamento é correta ('a' à esquerda, 'c' à direita)\n";
+    std::cout << "     -> OK: Estrutura da arvore apos balanceamento e correta ('a' a esquerda, 'c' a direita)\n";
 
-    std::cout << "  5. Limpando memória manualmente...\n";
+    std::cout << "  5. Limpando memoria manualmente...\n";
     destroy(tree);
 
-    std::cout << "Teste concluído com sucesso: caso direita-esquerda validado corretamente.\n";
+    std::cout << "Teste concluido com sucesso: caso direita-esquerda validado corretamente.\n";
     std::cout << std::string(60, '-') << "\n";
 }
 
 void run_avl_tests() {
-    std::cout << "\nIniciando testes da Árvore AVL...\n\n";
+    std::cout << "\nIniciando testes da arvore AVL...\n\n";
 
     test_create_destroy_avl();
     test_insert_single_word_avl();
@@ -556,5 +556,5 @@ void run_avl_tests() {
     test_insertAux_balance_left_right_case();
     test_insertAux_balance_right_left_case();
 
-    std::cout << "\nTodos os testes da AVL foram concluídos com sucesso.\n";
+    std::cout << "\nTodos os testes da AVL foram concluidos com sucesso.\n";
 }
