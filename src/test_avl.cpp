@@ -48,7 +48,7 @@ void test_insert_single_word_avl() {
     assert(tree->root->documentIds[0] == 1);
     std::cout << "     -> OK: Documento 1 registrado\n";
 
-    std::cout << "  5. Verificando número de comparacões retornado (res.numComparisons == 0)...\n";
+    std::cout << "  5. Verificando número de comparacoes retornado (res.numComparisons == 0)...\n";
     assert(res.numComparisons == 0);
     std::cout << "     -> OK: Nenhuma comparacao necessaria (arvore estava vazia)\n";
 
@@ -136,9 +136,9 @@ void test_search_found_avl() {
     assert(res.documentIds[0] == 10);
     std::cout << "     -> OK: Documento 10 encontrado na lista\n";
 
-    std::cout << "  6. Verificando número de comparacões realizadas...\n";
+    std::cout << "  6. Verificando número de comparacoes realizadas...\n";
     assert(res.numComparisons >= 1);
-    std::cout << "     -> OK: Comparacões realizadas: " << res.numComparisons << "\n";
+    std::cout << "     -> OK: Comparacoes realizadas: " << res.numComparisons << "\n";
 
     std::cout << "  7. Chamando: destroy(tree);\n";
     destroy(tree);
@@ -167,9 +167,9 @@ void test_search_not_found_avl() {
     assert(res.documentIds.empty());
     std::cout << "     -> OK: Nenhum documento associado retornado\n";
 
-    std::cout << "  6. Verificando número de comparacões realizadas...\n";
+    std::cout << "  6. Verificando número de comparacoes realizadas...\n";
     assert(res.numComparisons >= 1);
-    std::cout << "     -> OK: Comparacões realizadas: " << res.numComparisons << "\n";
+    std::cout << "     -> OK: Comparacoes realizadas: " << res.numComparisons << "\n";
 
     std::cout << "  7. Chamando: destroy(tree);\n";
     destroy(tree);
