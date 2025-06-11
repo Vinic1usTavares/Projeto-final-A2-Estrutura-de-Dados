@@ -1,0 +1,18 @@
+# Ignorar arquivos objeto compilados
+*.o
+*.obj
+*.out
+*.exe
+
+*.vscode
+.json
+
+# Ignorar arquivos temporários e backups
+*~
+*.swp
+*.tmp
+.DS_Store
+Thumbs.db
+*.pdb
+*.ilk
+
