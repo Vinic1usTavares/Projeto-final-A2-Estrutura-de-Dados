@@ -162,14 +162,48 @@ namespace RBT {
     } else {
         parent->right = newNode;
     }
-
+    // Corrige a árvore após a inserção
     fixInsertion(tree, newNode);
 
+    //Calcula o tempo de inserção e retorn
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> duration = end - start;
     return {comparisons, duration.count()};
 }
 
+    SearchResult search(BinaryTree* tree, const std::string& word) {
+        // Inicia o cronômetro
+        auto start = std::chrono::high_resolution_clock::now();   
+        int comparisons = 0;
+        Node* node = tree->root;
+        
+        while(node != tree->NIL) {
+            comparisons++;
+            if(word == node->word) {
+                // Para o cronômetro quando encontra a palavra
+                auto end = std::chrono::high_resolution_clock::now();
+                std::chrono::duration<double, std::milli> duration_ms = end - start;
+                double time_ms = duration_ms.count();
+                SearchResult result = {1, node->documentIds, time_ms, comparisons};
+                return result;
+            }
+            
+            
+            if(word < node->word) {
+                node = node->left;
+            } else {
+                node = node->right;
+            }
+        }
+        
+        // Para o cronômetro quando não encontra a palavra
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> duration_ms = end - start;
+        double time_ms = duration_ms.count();
+        
+        SearchResult result = {0, {}, time_ms, comparisons};
+        return result;
+    }
 
     void destroyNode(Node* node, Node* NIL) {
     if (node == nullptr || node == NIL) return;
