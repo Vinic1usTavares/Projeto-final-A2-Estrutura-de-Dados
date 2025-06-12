@@ -8,7 +8,7 @@ using namespace BST;
 
 // Teste 1: process_words
 void test_process_words() {
-    std::cout << "[TESTE] Normalização e separação de palavras...\n";
+    std::cout << "[TESTE] Normalizacao e separacao de palavras...\n";
 
     std::cout << "  1. Definindo string de entrada:\n";
     std::cout << "     std::string texto = \"Chuvisca muito em Garlgalo Nobre\";\n";
@@ -26,13 +26,13 @@ void test_process_words() {
     assert(resultado[4] == "nobre");
 
     std::cout << "     -> OK: Texto processado e normalizado corretamente\n";
-    std::cout << "Teste concluído com sucesso: função 'process_words' validada.\n";
+    std::cout << "Teste concluido com sucesso: funcao 'process_words' validada.\n";
     std::cout << std::string(60, '-') << "\n";
 }
 
-// Teste 2: index_documents com função insert da BST
+// Teste 2: index_documents com funcao insert da BST
 void test_index_documents() {
-    std::cout << "[TESTE] Indexação de documentos com inserção na árvore...\n";
+    std::cout << "[TESTE] Indexacao de documentos com insercao na arvore...\n";
 
     std::cout << "  1. Definindo vetor de documentos:\n";
     std::cout << "     std::vector<std::pair<std::string, int>> docs = {\n";
@@ -62,15 +62,15 @@ void test_index_documents() {
     std::cout << "  6. Chamando: destroy(tree);\n";
     destroy(tree);
 
-    std::cout << "Teste concluído com sucesso: documentos indexados corretamente na árvore.\n";
+    std::cout << "Teste concluido com sucesso: documentos indexados corretamente na arvore.\n";
     std::cout << std::string(60, '-') << "\n";
 }
 
 void run_data_tests() {
-    std::cout << "\nIniciando testes do módulo 'data'...\n\n";
+    std::cout << "\nIniciando testes do modulo 'data'...\n\n";
 
     test_process_words();
     test_index_documents();
 
-    std::cout << "\nTodos os testes do módulo 'data' foram concluídos com sucesso.\n";
+    std::cout << "\nTodos os testes do modulo 'data' foram concluidos com sucesso.\n";
 }

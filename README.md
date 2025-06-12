@@ -43,10 +43,9 @@ make
 Ou, para compilar alvos específicos:
 
 ```bash
-make bst         # Compila a main da BST
-make test_data   # Compila o teste do módulo de dados
-make main_avl    # Compila a main da AVL
-make test_avl    # Compila o teste da AVL
+make bst        # Compila o programa com BST
+make avl        # Compila o programa com AVL
+make test_data  # Compila os testes do módulo de dados
 ```
 
 ## Compilação Manual (sem Make)
@@ -56,19 +55,13 @@ Certifique-se de estar na raiz do projeto e que os diretórios `src/` e `bin/` e
 ### Compilar a main da BST:
 
 ```bash
-g++ -std=c++17 -Wall -Isrc src/main_bst.cpp src/bst.cpp src/test_bst.cpp src/tree_utils.cpp src/data.cpp -o bin/bst
+g++ -std=c++17 -Wall -Isrc src/main_bst.cpp src/bst.cpp src/test_bst.cpp src/data.cpp src/tree_utils.cpp -o bin/bst
 ```
 
 ### Compilar a main da AVL:
 
 ```bash
-g++ -std=c++17 -Wall -Isrc src/main_avl.cpp src/avl.cpp src/test_avl.cpp src/tree_utils.cpp src/data.cpp -o bin/main_avl
-```
-
-### Compilar o teste da AVL:
-
-```bash
-g++ -std=c++17 -Wall -Isrc src/test_avl.cpp src/avl.cpp src/tree_utils.cpp src/data.cpp -o bin/test_avl
+g++ -std=c++17 -Wall -Isrc src/main_avl.cpp src/avl.cpp src/test_avl.cpp src/tree_utils.cpp src/data.cpp -o bin/avl
 ```
 
 ### Compilar os testes do módulo de dados:
@@ -115,11 +108,12 @@ g++ -std=c++17 -Wall -Isrc src/main_data.cpp src/test_data.cpp src/bst.cpp src/t
 ./bin/main_avl stats 10 data
 ```
 
-**Execução dos testes da AVL:**
+**Execução dos testes da BST:**
 
 ```bash
-./bin/test_avl
+./bin/bst tests
 ```
+
 
 ### Execução dos testes do módulo `data`:
 

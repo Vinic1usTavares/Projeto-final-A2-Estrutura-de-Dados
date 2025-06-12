@@ -64,11 +64,11 @@ int main(int argc, char* argv[]) {
             total_comparisons += res.numComparisons;
         }
 
-        std::cout << "\n=== Estatísticas BST ===\n";
+        std::cout << "\n=== Estatisticas BST ===\n";
         std::cout << "Documentos indexados: " << n_docs << "\n";
-        std::cout << "Tempo total de indexação: " << index_time.count() << " segundos\n";
-        std::cout << "Comparações totais (inserção): " << total_comparisons << "\n";
-        std::cout << "Altura da árvore: " << (tree->root ? tree->root->height : 0) << "\n\n";
+        std::cout << "Tempo total de indexacao: " << index_time.count() << " segundos\n";
+        std::cout << "Comparacoes totais (insercao): " << total_comparisons << "\n";
+        std::cout << "Altura da arvore: " << (tree->root ? tree->root->height : 0) << "\n\n";
 
     }
 
