@@ -6,26 +6,6 @@
 #include <string>
 #include <chrono>
 
-// int main() {
-//     // Cria a árvore
-//     BinaryTree* tree = RBT::create();
-
-//     // Insere palavras com IDs
-//     RBT::insert(tree, "banana", 1);
-//     RBT::insert(tree, "abacate", 1);
-//     RBT::insert(tree, "caju", 2);
-//     RBT::insert(tree, "damasco", 2);
-
-//     // Imprime a árvore
-//     printTree(tree);
-
-//     // Libera memória
-//     RBT::destroy(tree);
-
-//     return 0;
-// }
-
-
 int main(int argc, char* argv[]) {
     if (argc < 2) {
         std::cerr << "Uso: ./bin/bst <search|stats> <n_docs> <diretorio>\n";
@@ -89,7 +69,7 @@ int main(int argc, char* argv[]) {
         std::cout << "Documentos indexados: " << n_docs << "\n";
         std::cout << "Tempo total de indexação: " << index_time.count() << " segundos\n";
         std::cout << "Comparações totais (inserção): " << total_comparisons << "\n";
-        std::cout << "Altura da árvore: " << (tree->root ? tree->root->height : 0) << "\n\n";
+        std::cout << "Altura da árvore: " << (tree->root ? GetHeight(tree->root) : 0) << "\n\n";
 
     }
 

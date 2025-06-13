@@ -74,3 +74,13 @@ void printTree(BinaryTree* tree) {
     printTreeNode(tree->root->left, "", true);
     printTreeNode(tree->root->right, "", false);
 }
+
+int GetHeight(Node* root){
+    if (root == nullptr){
+    return -1; 
+    }
+    int LeftHeight = GetHeight(root->left);
+    int RightHeight = GetHeight(root->right);
+
+    return 1 + std::max(LeftHeight, RightHeight);
+}

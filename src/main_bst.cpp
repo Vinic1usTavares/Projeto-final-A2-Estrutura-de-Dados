@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
         std::cout << "Documentos indexados: " << n_docs << "\n";
         std::cout << "Tempo total de indexação: " << index_time.count() << " segundos\n";
         std::cout << "Comparações totais (inserção): " << total_comparisons << "\n";
-        std::cout << "Altura da árvore: " << (tree->root ? tree->root->height : 0) << "\n\n";
+        std::cout << "Altura da árvore: " << (tree->root ? GetHeight(tree->root) : 0) << "\n\n";
 
     }
 

@@ -52,7 +52,9 @@ Node* createNode();
 // Destroi recursivamente todos os nós da árvore
 void destroyNode(Node* node);
 
-// Versão especializada de destruição de nós usada com RBT, respeitando o nó NIL
-void destroyNodeRBT(Node* node, BinaryTree* tree);
+// Encontra a altura de uma árvore
+int GetHeight(Node* root);
+
+
 
 #endif
