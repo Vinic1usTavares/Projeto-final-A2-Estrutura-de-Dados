@@ -75,4 +75,6 @@ double calculateWorstCaseSearchTime(BinaryTree* tree);
 
 double measureWorstCase(BinaryTree* tree, int repetitions = 200);
 
+int findMinPath(BinaryTree* tree, Node* node);
+
 #endif

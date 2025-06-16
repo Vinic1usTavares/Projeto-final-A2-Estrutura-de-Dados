@@ -184,3 +184,12 @@ double measureWorstCase(BinaryTree* tree, int repetitions) {
     }
     return totalTime / repetitions;
 }
+
+int findMinPath(BinaryTree* tree, Node* node) {
+    if (node == nullptr || node == tree->NIL) {
+        return 0;
+    }
+    int leftHeight = findMinPath(tree, node->left);
+    int rightHeight = findMinPath(tree, node->right);
+    return 1 + std::min(leftHeight, rightHeight);
+}

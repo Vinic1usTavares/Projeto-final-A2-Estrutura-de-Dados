@@ -61,6 +61,8 @@ int main(int argc, char* argv[]) {
     else if (command == "stats") {
         std::size_t TreeMemory = calculateTreeMemory(tree->root);
         double worstTime = measureWorstCase(tree);
+        int minPath = findMinPath(tree, tree->root);
+
         int total_comparisons = 0;
         int total_rotations =  0;
         for (const auto& res : insert_results) {
@@ -68,14 +70,29 @@ int main(int argc, char* argv[]) {
             total_rotations += res.rotationsCount;
         }
 
-        std::cout << "\n=== Estatísticas AVL ===\n";
-        std::cout << "Documentos indexados: " << n_docs << "\n";
-        std::cout << "Tempo total de indexação: " << index_time.count() << " segundos\n";
-        std::cout << "Tempo médio do pior caso: " << worstTime << " ms\n";
-        std::cout << "Comparações totais (inserção): " << total_comparisons << "\n";
-        std::cout << "Número total de rotações: " << total_rotations  << "\n";
-        std::cout << "Quantidade de memória utilizada: " << TreeMemory / (1024.0 * 1024.0) << " MB\n" << "\n";
-        std::cout << "Altura da árvore: " << (tree->root ? tree->root->height : 0) << "\n\n";
+    std::cout << "\n=== Estatísticas AVL ===\n";
+    // --- Indexação ---
+    std::cout << "-- Indexação --\n";
+    std::cout << "Documentos indexados:       " << n_docs << "\n";
+    std::cout << "Tempo total de indexação:   "
+   
+            << index_time.count() << " s\n\n";
+
+    // --- Desempenho ---
+    std::cout << "-- Desempenho --\n";
+    std::cout << "Tempo pior caso (médio):    " << worstTime << " ms\n";
+    std::cout << "Comparações (inserção):     " << total_comparisons << "\n";
+    std::cout << "Total de rotações:          " << total_rotations << "\n\n";
+
+    // --- Estrutura & Memória ---
+    std::cout << "-- Estrutura & Memória --\n";
+    std::cout << "Menor caminho:             " << minPath << "\n";
+    std::cout << "Altura da árvore:          " 
+            << (tree->root ? GetHeight(tree->root) : 0) << "\n";
+    std::cout << "Memória utilizada:         "
+   
+            << (TreeMemory / (1024.0 * 1024.0)) << " MB\n\n";
+
     }
 
     AVL::destroy(tree);
