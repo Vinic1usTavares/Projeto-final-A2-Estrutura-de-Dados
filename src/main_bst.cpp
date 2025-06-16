@@ -59,6 +59,7 @@ int main(int argc, char* argv[]) {
         }
     } 
     else if (command == "stats") {
+        std::size_t TreeMemory = calculateTreeMemory(tree->root);
         int total_comparisons = 0;
         for (const auto& res : insert_results) {
             total_comparisons += res.numComparisons;
@@ -68,6 +69,7 @@ int main(int argc, char* argv[]) {
         std::cout << "Documentos indexados: " << n_docs << "\n";
         std::cout << "Tempo total de indexação: " << index_time.count() << " segundos\n";
         std::cout << "Comparações totais (inserção): " << total_comparisons << "\n";
+        std::cout << "Quantidade de memória utilizada: " << TreeMemory / (1024.0 * 1024.0) << " MB\n" << "\n";
         std::cout << "Altura da árvore: " << (tree->root ? GetHeight(tree->root) : 0) << "\n\n";
 
     }

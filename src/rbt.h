@@ -6,17 +6,23 @@
 
 namespace RBT {
     
-    //cria uma nova árvore rbt
+    // Cria uma nova árvore rbt
     BinaryTree* create();
 
-    //insere uma palavra com um id do documento
+    // Insere uma palavra com um id do documento
     InsertResult insert(BinaryTree* tree, const std::string& word, int documentId);
 
-    //busca uma palavra na árvore
+    // Busca uma palavra na árvore
     SearchResult search(BinaryTree* tree, const std::string& word);
 
-    //libera memória da árvore
+    // Libera memória da árvore
     void destroy(BinaryTree* tree);
+
+    void leftRotate(BinaryTree* tree, Node* node, int& rotationsCount);
+    void rightRotate(BinaryTree* tree, Node* node, int& rotationsCount);
+    void fixInsertion(BinaryTree* tree, Node* node, int& rotationsCount);
+    void destroyNode(Node* node, Node* NIL);
+
 
 } //namespace RBT
 

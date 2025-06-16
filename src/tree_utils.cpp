@@ -84,3 +84,30 @@ int GetHeight(Node* root){
 
     return 1 + std::max(LeftHeight, RightHeight);
 }
+
+//  Funções para cálculo de memória
+
+std::size_t calculateNodeMemory(const Node* node) {
+    if (node == nullptr) return 0;
+
+    std::size_t memory = 0;
+    
+    // Memória da palavra (string)
+    memory += node->word.capacity() + sizeof(std::string);
+
+    // Memória do vetor de documentIds
+    memory += node->documentIds.capacity() * sizeof(int) + sizeof(std::vector<int>);
+
+    // Memória da estrutura Node (inclui ponteiros left/right)
+    memory += sizeof(Node);
+
+    return memory;
+}
+
+// Função recursiva para percorrer a árvore
+std::size_t calculateTreeMemory(const Node* root) {
+    if (root == nullptr) return 0;
+    return calculateNodeMemory(root) 
+           + calculateTreeMemory(root->left) 
+           + calculateTreeMemory(root->right);
+}

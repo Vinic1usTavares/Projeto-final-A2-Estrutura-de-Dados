@@ -56,6 +56,10 @@ void destroyNode(Node* node);
 // Encontra a altura de uma árvore
 int GetHeight(Node* root);
 
+// Calcula a quantidade de memória utilizada por um nó
+std::size_t calculateNodeMemory(const Node* node);
 
+// Calcula a quantidade de memória utilizada por toda a árvore
+std::size_t calculateTreeMemory(const Node* root);
 
 #endif
