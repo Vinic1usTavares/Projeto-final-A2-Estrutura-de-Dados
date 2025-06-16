@@ -38,6 +38,14 @@ struct SearchResult {
     int numComparisons;            // Número de comparações realizadas durante a busca
 };
 
+/**
+ * Pesquisa uma palavra na árvore.
+ * @param tree Endereço da árvore
+ * @param word Palavra a ser pesquisada
+ * @return SearchResult contendo: found = 1 caso a palvra for achada ou 0 caso contrário, um vector<int> dos Ids dos documentos em que a palvra esta presente, o tempo (double) de execução da função e o número (int) de comparações realizadas.
+ */
+SearchResult search(BinaryTree* tree, const std::string& word);
+
 // Imprime as palavras e os documentos associados em ordem, até um limite de palavras
 void printIndexAux(Node* node, int& count, int max);
 
@@ -61,5 +69,10 @@ std::size_t calculateNodeMemory(const Node* node);
 
 // Calcula a quantidade de memória utilizada por toda a árvore
 std::size_t calculateTreeMemory(const Node* root);
+
+// Calcula o tempo de pior caso na busca
+double calculateWorstCaseSearchTime(BinaryTree* tree);
+
+double measureWorstCase(BinaryTree* tree, int repetitions = 200);
 
 #endif

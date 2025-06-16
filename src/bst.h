@@ -21,14 +21,6 @@ namespace BST {
     InsertResult insert(BinaryTree* tree, const std::string& word, int documentId);
 
     /**
-     * Pesquisa uma palavra na árvore.
-     * @param tree Endereço da árvore
-     * @param word Palavra a ser pesquisada
-     * @return SearchResult contendo: found = 1 caso a palvra for achada ou 0 caso contrário, um vector<int> dos Ids dos documentos em que a palvra esta presente, o tempo (double) de execução da função e o número (int) de comparações realizadas.
-     */
-    SearchResult search(BinaryTree* tree, const std::string& word);
-
-    /**
      * Destroi recursivamente toda a árvore e seus nós.
      * @param tree Endereço da árvore
      * */

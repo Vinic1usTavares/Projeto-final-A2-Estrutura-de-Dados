@@ -184,43 +184,6 @@ namespace RBT {
     return {comparisons, duration.count(), rotationsCount};
 }
 
-    // Busca uma palavra na árvore e retorna informações da busca
-    SearchResult search(BinaryTree* tree, const std::string& word) {
-        // Inicia o cronômetro
-        auto start = std::chrono::high_resolution_clock::now();   
-        int comparisons = 0;
-        Node* node = tree->root;
-        
-        // Procura a palavra desejada
-        while(node != tree->NIL) {
-            comparisons++;
-            if(word == node->word) {
-                // Para o cronômetro quando encontra a palavra
-                auto end = std::chrono::high_resolution_clock::now();
-                std::chrono::duration<double, std::milli> duration_ms = end - start;
-                double time_ms = duration_ms.count();
-                SearchResult result = {1, node->documentIds, time_ms, comparisons};
-                return result;
-            }
-            
-            
-            if(word < node->word) {
-                node = node->left;
-            } 
-            else {
-                node = node->right;
-            }
-        }
-        
-        // Para o cronômetro quando não encontra a palavra
-        auto end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double, std::milli> duration_ms = end - start;
-        double time_ms = duration_ms.count();
-        
-        SearchResult result = {0, {}, time_ms, comparisons};
-        return result;
-    }
-
     // Libera recursivamente a memória de todos os nós da árvore
     void destroyNode(Node* node, Node* NIL) {
     if (node == NIL) { return; }

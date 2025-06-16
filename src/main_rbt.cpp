@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
                 running = false;
                 break;
             }
-            SearchResult result = RBT::search(tree, query);
+            SearchResult result = search(tree, query);
             if(result.found == 0) {
                 std::cout << query << " nao esta presente nos textos \n";
             } else {
@@ -61,6 +61,7 @@ int main(int argc, char* argv[]) {
     } 
     else if (command == "stats") {
         std::size_t TreeMemory = calculateTreeMemory(tree->root);
+        double worstTime = measureWorstCase(tree);
         int total_comparisons = 0;
         int total_rotations = 0;
         for (const auto& res : insert_results) {
@@ -71,8 +72,9 @@ int main(int argc, char* argv[]) {
         std::cout << "\n=== Estatísticas RBT ===\n";
         std::cout << "Documentos indexados: " << n_docs << "\n";
         std::cout << "Tempo total de indexação: " << index_time.count() << " segundos\n";
+        std::cout << "Tempo médio do pior caso: " << worstTime << " ms\n";
         std::cout << "Comparações totais (inserção): " << total_comparisons << "\n";
-        std::cout << "Número total de rotações (inserção): " << total_rotations << "\n";
+        std::cout << "Número total de rotações: " << total_rotations << "\n";
         std::cout << "Quantidade de memória utilizada: " << TreeMemory / (1024.0 * 1024.0) << " MB\n" << "\n";
         std::cout << "Altura da árvore: " << (tree->root ? GetHeight(tree->root) : 0) << "\n\n";
 

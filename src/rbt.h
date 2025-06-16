@@ -12,9 +12,6 @@ namespace RBT {
     // Insere uma palavra com um id do documento
     InsertResult insert(BinaryTree* tree, const std::string& word, int documentId);
 
-    // Busca uma palavra na árvore
-    SearchResult search(BinaryTree* tree, const std::string& word);
-
     // Libera memória da árvore
     void destroy(BinaryTree* tree);
 

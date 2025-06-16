@@ -120,32 +120,6 @@ namespace AVL {
         return {comparisons, duration.count(), rotationsCount};
     }
 
-    // Busca uma palavra na árvore AVL e retorna informações da busca
-    SearchResult search(BinaryTree* tree, const std::string& word) {
-        auto start = std::chrono::high_resolution_clock::now();
-        int comparisons = 0;
-        Node* node = tree->root;
-
-        while (node != nullptr) {
-            comparisons++;
-            if (word == node->word) {
-                auto end = std::chrono::high_resolution_clock::now();
-                std::chrono::duration<double, std::milli> duration = end - start;
-                return {1, node->documentIds, duration.count(), comparisons};
-            }
-
-            if (word < node->word) {
-                node = node->left;
-            } else {
-                node = node->right;
-            }
-        }
-
-        auto end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double, std::milli> duration = end - start;
-        return {0, {}, duration.count(), comparisons};
-    }
-
     // Libera a memória ocupada pela árvore
     void destroy(BinaryTree* tree) {
         if (tree != nullptr) {

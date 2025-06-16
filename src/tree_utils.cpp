@@ -1,5 +1,40 @@
 #include "tree_utils.h"
 #include <iostream>
+#include <functional>
+
+SearchResult search(BinaryTree* tree, const std::string& word) {
+    // Inicia o cronômetro
+    auto start = std::chrono::high_resolution_clock::now();   
+    int comparisons = 0;
+    Node* node = tree->root;
+    
+    while(node != nullptr) {
+        comparisons++;
+        if(word == node->word) {
+            // Para o cronômetro quando encontra a palavra
+            auto end = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<double, std::milli> duration_ms = end - start;
+            double time_ms = duration_ms.count();
+            SearchResult result = {1, node->documentIds, time_ms, comparisons};
+            return result;
+        }
+        
+        // Ordem lexicográfica
+        if(word < node->word) {
+            node = node->left;
+        } else {
+            node = node->right;
+        }
+    }
+    
+    // Para o cronômetro quando não encontra a palavra
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> duration_ms = end - start;
+    double time_ms = duration_ms.count();
+    
+    SearchResult result = {0, {}, time_ms, comparisons};
+    return result;
+    }
 
 // Função auxiliar recursiva para imprimir as palavras e seus IDs de documentos em ordem
 void printIndexAux(Node* node, int& count, int max) {
@@ -110,4 +145,42 @@ std::size_t calculateTreeMemory(const Node* root) {
     return calculateNodeMemory(root) 
            + calculateTreeMemory(root->left) 
            + calculateTreeMemory(root->right);
+}
+
+// Retorna o tempo (em ms) da busca mais lenta (pior caso)
+double calculateWorstCaseSearchTime(BinaryTree* tree) {
+    double worstTime = 0.0;
+    
+    // Função para percorrer a árvore e testar cada palavra
+    std::function<void(Node*)> testNode = [&](Node* node) {
+        if (node == nullptr || node == tree->NIL) return;
+        
+        // Testa a busca para a palavra deste nó
+        auto start = std::chrono::high_resolution_clock::now();
+        search(tree, node->word);
+        auto end = std::chrono::high_resolution_clock::now();
+        double currentTime = std::chrono::duration<double, std::milli>(end - start).count();
+        
+        // Atualiza o pior tempo
+        if (currentTime > worstTime) {
+            worstTime = currentTime;
+        }
+        
+        // Percorre os filhos
+        testNode(node->left);
+        testNode(node->right);
+    };
+    
+    // Inicia o teste a partir da raiz
+    testNode(tree->root);
+    
+    return worstTime;
+}
+
+double measureWorstCase(BinaryTree* tree, int repetitions) {
+    double totalTime = 0.0;
+    for (int i = 0; i < repetitions; ++i) {
+        totalTime += calculateWorstCaseSearchTime(tree);
+    }
+    return totalTime / repetitions;
 }
