@@ -23,7 +23,8 @@ namespace RBT {
     }
 
     // funções para rotacionar subárvores
-    void leftRotate(BinaryTree* tree, Node* node) {
+    void leftRotate(BinaryTree* tree, Node* node, int& rotationsCount) {
+        rotationsCount ++;
         Node* rightCurrentChild = node->right;
         node->right = rightCurrentChild->left;
 
@@ -49,7 +50,8 @@ namespace RBT {
 
     }
 
-    void rightRotate(BinaryTree* tree, Node* node) {
+    void rightRotate(BinaryTree* tree, Node* node, int& rotationsCount) {
+        rotationsCount ++;
         Node* leftCurrentChild = node->left;
         node->left = leftCurrentChild->right;
 
@@ -75,7 +77,7 @@ namespace RBT {
 
     }
 
-    void fixInsertion(BinaryTree* tree, Node* node) {
+    void fixInsertion(BinaryTree* tree, Node* node, int& rotationsCount) {
         while (node != tree->root && node->parent->isRed) {
             Node* parent = node->parent;
             Node* grandparent = parent->parent;
@@ -91,12 +93,12 @@ namespace RBT {
                 } else {
                     if (node == parent->right) {
                         node = parent;
-                        leftRotate(tree, node);
+                        leftRotate(tree, node, rotationsCount);
                         parent = node->parent;
                     }
                     parent->isRed = 0;
                     grandparent->isRed = 1;
-                    rightRotate(tree, grandparent);
+                    rightRotate(tree, grandparent, rotationsCount);
                 }
             } 
             else {
@@ -111,49 +113,50 @@ namespace RBT {
                 else {
                     if (node == parent->left) {
                         node = parent;
-                        rightRotate(tree, node);
+                        rightRotate(tree, node, rotationsCount);
                         parent = node->parent;
                     }
                     parent->isRed = 0;
                     grandparent->isRed = 1;
-                    leftRotate(tree, grandparent);
+                    leftRotate(tree, grandparent, rotationsCount);
                 }
             }
         }
         tree->root->isRed = 0;
     }
     InsertResult insert(BinaryTree* tree, const std::string& word, int documentId) {
-    auto start = std::chrono::high_resolution_clock::now();
-    int comparisons = 0;
+        auto start = std::chrono::high_resolution_clock::now();
+        int comparisons = 0;
+        int rotationsCount = 0;
 
-    // Cria novo nó
-    Node* newNode = new Node;
-    newNode->word = word;
-    newNode->documentIds.push_back(documentId);
-    newNode->isRed = 1;
-    newNode->left = newNode->right = newNode->parent = tree->NIL;
+        // Cria novo nó
+        Node* newNode = new Node;
+        newNode->word = word;
+        newNode->documentIds.push_back(documentId);
+        newNode->isRed = 1;
+        newNode->left = newNode->right = newNode->parent = tree->NIL;
 
-    // Percorre a árvore para inserir
-    Node* parent = nullptr;
-    Node* current = tree->root;
+        // Percorre a árvore para inserir
+        Node* parent = nullptr;
+        Node* current = tree->root;
 
-    while (current != tree->NIL) {
-        parent = current;
-        comparisons++;
-        if (word < current->word) {
-            current = current->left;
-        } 
-        else if (word > current->word) {
-            current = current->right;
-        } 
-        else {
-            // Palavra já existe, só adiciona docId se não for repetido
-            if (current->documentIds.empty() || current->documentIds.back() != documentId)
-                current->documentIds.push_back(documentId);
+        while (current != tree->NIL) {
+            parent = current;
+            comparisons++;
+            if (word < current->word) {
+                current = current->left;
+            } 
+            else if (word > current->word) {
+                current = current->right;
+            } 
+            else {
+                // Palavra já existe, só adiciona docId se não for repetido
+                if (current->documentIds.empty() || current->documentIds.back() != documentId)
+                    current->documentIds.push_back(documentId);
 
-            auto end = std::chrono::high_resolution_clock::now();
-            std::chrono::duration<double, std::milli> duration = end - start;
-            return {comparisons, duration.count()};
+                auto end = std::chrono::high_resolution_clock::now();
+                std::chrono::duration<double, std::milli> duration = end - start;
+                return {comparisons, duration.count()};
         }
     }
 
@@ -167,12 +170,12 @@ namespace RBT {
         parent->right = newNode;
     }
     // Corrige a árvore após a inserção
-    fixInsertion(tree, newNode);
+    fixInsertion(tree, newNode, rotationsCount);
 
     //Calcula o tempo de inserção e retorn
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> duration = end - start;
-    return {comparisons, duration.count()};
+    return {comparisons, duration.count(), rotationsCount};
 }
 
     SearchResult search(BinaryTree* tree, const std::string& word) {

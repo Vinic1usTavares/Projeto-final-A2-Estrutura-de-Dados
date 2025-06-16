@@ -27,6 +27,7 @@ struct BinaryTree {
 struct InsertResult {
     int numComparisons;    // Número de comparações realizadas
     double executionTime;  // Tempo gasto na inserção (em milissegundos)
+    int rotationsCount;
 };
 
 // Resultado da busca por uma palavra na árvore
