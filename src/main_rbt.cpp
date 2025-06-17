@@ -64,24 +64,28 @@ int main(int argc, char* argv[]) {
         double worstTime = measureWorstCase(tree);
         int minPath = findMinPath(tree, tree->root);
 
+        double time_insertion = 0;
         int total_comparisons = 0;
         int total_rotations = 0;
         for (const auto& res : insert_results) {
             total_comparisons += res.numComparisons;
             total_rotations += res.rotationsCount;
+            time_insertion += res.executionTime;
         }
 
     std::cout << "\n=== Estatísticas RBT ===\n";
     // --- Indexação ---
-    std::cout << "-- Indexação --\n";
+    std::cout << "-- Indexação / Inserção --\n";
     std::cout << "Documentos indexados:       " << n_docs << "\n";
-    std::cout << "Tempo total de indexação:   "
-   
-            << index_time.count() << " s\n\n";
+    std::cout << "Tempo total de indexação:   " << index_time.count() << " s\n";
+    std::cout << "Tempo total de inserção:   " << time_insertion / 1000 << " s\n";
+    std::cout << "Tempo médio de inserção (ms):   " << 
+    
+                time_insertion/n_docs << " ms\n\n";
 
     // --- Desempenho ---
     std::cout << "-- Desempenho --\n";
-    std::cout << "Tempo pior caso (médio):    " << worstTime << " ms\n";
+    std::cout << "Tempo médio de busca pior caso:    " << worstTime << " ms\n";
     std::cout << "Comparações (inserção):     " << total_comparisons << "\n";
     std::cout << "Total de rotações:          " << total_rotations << "\n\n";
 
