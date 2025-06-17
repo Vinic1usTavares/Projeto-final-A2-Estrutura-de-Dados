@@ -75,25 +75,24 @@ int main(int argc, char* argv[]) {
     std::cout << "\n=== Estatísticas AVL ===\n";
     // --- Indexação ---
     std::cout << "-- Indexação / Inserção --\n";
-    std::cout << "Documentos indexados:       " << n_docs << "\n";
+    std::cout << "Documentos indexados:                      " << n_docs << "\n";
     std::cout << "Tempo total de indexação (com inserção):   " << index_time.count() << " s\n";
-    std::cout << "Tempo total de inserção:   " << time_insertion / 1000 << " s\n";
-    std::cout << "Tempo médio de inserção (ms):   " << 
+    std::cout << "Tempo total de inserção:                   " << time_insertion / 1000 << " s\n";
+    std::cout << "Tempo médio de inserção (ms):              " << 
     
                 time_insertion/n_docs << " ms\n\n";
 
     // --- Desempenho ---
     std::cout << "-- Desempenho --\n";
     std::cout << "Tempo médio de busca pior caso:    " << worstTime << " ms\n";
-    std::cout << "Comparações (inserção):     " << total_comparisons << "\n";
-    std::cout << "Total de rotações:          " << total_rotations << "\n\n";
+    std::cout << "Comparações (inserção):            " << total_comparisons << "\n";
+    std::cout << "Total de rotações:                 " << total_rotations << "\n\n";
 
     // --- Estrutura & Memória ---
     std::cout << "-- Estrutura & Memória --\n";
-    std::cout << "Menor caminho:             " << minPath << "\n";
-    std::cout << "Altura da árvore (maior caminho):          " 
-            << (tree->root ? GetHeight(tree->root) : 0) << "\n";
-    std::cout << "Memória utilizada:         "
+    std::cout << "Menor caminho:                      " << minPath << "\n";
+    std::cout << "Altura da árvore (maior caminho):   " << tree->root->height << "\n";
+    std::cout << "Memória utilizada:                  "
    
             << (TreeMemory / (1024.0 * 1024.0)) << " MB\n\n";
 
