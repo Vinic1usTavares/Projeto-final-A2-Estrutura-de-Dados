@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <chrono>
+#include <fstream>
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
@@ -63,6 +64,7 @@ int main(int argc, char* argv[]) {
         std::size_t TreeMemory = calculateTreeMemory(tree->root);
         double worstTime = measureWorstCase(tree);
         int minPath = findMinPath(tree, tree->root);
+        int height  = (tree->root ? GetHeight(tree->root) : 0);
 
         double time_insertion = 0;
         int total_comparisons = 0;
@@ -77,7 +79,7 @@ int main(int argc, char* argv[]) {
     // --- Indexação ---
     std::cout << "-- Indexação / Inserção --\n";
     std::cout << "Documentos indexados:       " << n_docs << "\n";
-    std::cout << "Tempo total de indexação:   " << index_time.count() << " s\n";
+    std::cout << "Tempo total de indexação (com inserção):   " << index_time.count() << " s\n";
     std::cout << "Tempo total de inserção:   " << time_insertion / 1000 << " s\n";
     std::cout << "Tempo médio de inserção (ms):   " << 
     
@@ -92,14 +94,19 @@ int main(int argc, char* argv[]) {
     // --- Estrutura & Memória ---
     std::cout << "-- Estrutura & Memória --\n";
     std::cout << "Menor caminho:             " << minPath << "\n";
-    std::cout << "Altura da árvore:          " 
-            << (tree->root ? GetHeight(tree->root) : 0) << "\n";
+    std::cout << "Altura da árvore (maior caminho):          " 
+    << height << "\n";
     std::cout << "Memória utilizada:         "
    
             << (TreeMemory / (1024.0 * 1024.0)) << " MB\n\n";
 
+
+
     }
+
 
     RBT::destroy(tree);
     return 0;
 }
+
+

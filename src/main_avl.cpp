@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
     // --- Indexação ---
     std::cout << "-- Indexação / Inserção --\n";
     std::cout << "Documentos indexados:       " << n_docs << "\n";
-    std::cout << "Tempo total de indexação:   " << index_time.count() << " s\n";
+    std::cout << "Tempo total de indexação (com inserção):   " << index_time.count() << " s\n";
     std::cout << "Tempo total de inserção:   " << time_insertion / 1000 << " s\n";
     std::cout << "Tempo médio de inserção (ms):   " << 
     
@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
     // --- Estrutura & Memória ---
     std::cout << "-- Estrutura & Memória --\n";
     std::cout << "Menor caminho:             " << minPath << "\n";
-    std::cout << "Altura da árvore:          " 
+    std::cout << "Altura da árvore (maior caminho):          " 
             << (tree->root ? GetHeight(tree->root) : 0) << "\n";
     std::cout << "Memória utilizada:         "
    
