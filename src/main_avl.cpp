@@ -102,7 +102,7 @@ int main(int argc, char* argv[]) {
     std::cout << "\n=== Estatísticas AVL ===\n";
     // --- Indexação ---
     std::cout << "-- Indexação / Inserção --\n";
-    std::cout << "Documentos indexados:                      " << n_docs << "\n";
+    std::cout << "Documentos indexados:                      " << documents.size() << "\n";
     std::cout << "Tempo total de indexação (com inserção):   " << index_time.count() << " s\n";
     std::cout << "Tempo total de inserção:                   " << time_insertion / 1000 << " s\n";
     std::cout << "Tempo médio de inserção (ms):              " << 
