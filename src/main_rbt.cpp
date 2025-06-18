@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
 
     // Caso de testes
     if(command == "tests") {
-        //run_rbt_tests();
+        run_rbt_tests();
         return 0;
     }
 
@@ -74,6 +74,7 @@ int main(int argc, char* argv[]) {
         std::cout << "Altura da árvore: " << (tree->root ? tree->root->height : 0) << "\n\n";
 
     }
+
 
     RBT::destroy(tree);
     return 0;
