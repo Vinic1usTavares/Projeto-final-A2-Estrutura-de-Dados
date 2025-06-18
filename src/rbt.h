@@ -50,6 +50,6 @@ InsertResult insert(BinaryTree* tree, const std::string& word, int documentId);
  */
 void destroy(BinaryTree* tree);
 
-} //namespace RBT
+} // namespace RBT
 
 #endif // RBT_H

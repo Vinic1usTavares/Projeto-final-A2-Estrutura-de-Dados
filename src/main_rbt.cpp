@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
 
     // Caso de testes
     if(command == "tests") {
-        //run_rbt_tests();
+        run_rbt_tests();
         return 0;
     }
 

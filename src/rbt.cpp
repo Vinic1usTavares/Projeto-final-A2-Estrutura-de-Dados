@@ -4,9 +4,9 @@
 #include <algorithm>
 #include <vector>
 
-
 namespace RBT {
 
+    // Ponteiro global para o nó sentinela NIL (equivalente a nullptr nas folhas)
     Node* NIL = nullptr;
 
     // Inicializa uma árvore vazia
@@ -23,7 +23,7 @@ namespace RBT {
         return tree;
     }
 
-    // Funções para rotacionar subárvores
+    // Rotação à esquerda
     void leftRotate(BinaryTree* tree, Node* node, int& rotationsCount) {
         rotationsCount ++;
         Node* rightCurrentChild = node->right;
@@ -37,20 +37,17 @@ namespace RBT {
 
         if (node->parent == nullptr) {
             tree->root = rightCurrentChild;
-
         } else if (node == node->parent->left) {
             node->parent->left = rightCurrentChild;
-
         } else {
             node->parent->right = rightCurrentChild;
-
         }
 
         rightCurrentChild->left = node;
         node->parent = rightCurrentChild;
-
     }
 
+    // Rotação à direita
     void rightRotate(BinaryTree* tree, Node* node, int& rotationsCount) {
         rotationsCount ++;
         Node* leftCurrentChild = node->left;
@@ -64,21 +61,17 @@ namespace RBT {
 
         if (node->parent == nullptr) {
             tree->root = leftCurrentChild;
-
         } else if (node == node->parent->left) {
             node->parent->left = leftCurrentChild;
-
         } else {
             node->parent->right = leftCurrentChild;
-
         }
 
         leftCurrentChild->right = node;
         node->parent = leftCurrentChild;
-
     }
 
-    // Corrige a árvore após a inserção de um nó
+    // Corrige as violações às propriedades da RBT após a inserção de um nó
     void fixInsertion(BinaryTree* tree, Node* node, int& rotationsCount) {
         while (node != tree->root && node->parent->isRed) {
             Node* parent = node->parent;
@@ -87,13 +80,14 @@ namespace RBT {
             if (parent == grandparent->left) { // Caso esquerdo
                 Node* uncle = grandparent->right;
 
-                if (uncle->isRed) {  // Tio vermelho: recolorir
+                if (uncle->isRed) {  // Tio vermelho - recoloração
                     parent->isRed = 0;
                     uncle->isRed = 0;
                     grandparent->isRed = 1;
                     node = grandparent;
-                } else {  // Tio preto: rotacionar
-                    if (node == parent->right) { //Verifica se está na direção oposta (rotação dupla)
+                } else {
+                    // Casos 2 e 3: Tio preto - rotação e recoloração
+                    if (node == parent->right) { // Verifica se está na direção oposta (rotação dupla)
                         node = parent;
                         leftRotate(tree, node, rotationsCount);
                         parent = node->parent;
@@ -112,8 +106,8 @@ namespace RBT {
                     grandparent->isRed = 1;
                     node = grandparent;
                 } 
-                else { // Tio preto: rotacionar
-                    if (node == parent->left) { //Verifica se está na direção oposta (rotação dupla)
+                else { 
+                    if (node == parent->left) { // Verifica se está na direção oposta (rotação dupla)
                         node = parent;
                         rightRotate(tree, node, rotationsCount);
                         parent = node->parent;
@@ -124,7 +118,7 @@ namespace RBT {
                 }
             }
         }
-        tree->root->isRed = 0;
+        tree->root->isRed = 0; // raiz sempre preta
     }
 
     // Insere uma palavra na árvore RBT e retorna estatísticas da inserção
@@ -163,6 +157,21 @@ namespace RBT {
                 std::chrono::duration<double, std::milli> duration = end - start;
                 return {comparisons, duration.count()};
         }
+
+        newNode->parent = parent;
+
+        if (parent == nullptr) {
+            tree->root = newNode;
+        } else if (word < parent->word) {
+            parent->left = newNode;
+        } else {
+            parent->right = newNode;
+        }
+
+        fixInsertion(tree, newNode);
+
+        auto end = std::chrono::high_resolution_clock::now();
+        return {comparisons, std::chrono::duration<double, std::milli>(end - start).count()};
     }
 
     newNode->parent = parent;
@@ -193,11 +202,8 @@ namespace RBT {
 }
     // Exclui a árvore e libera a memória que ela ocupava
     void destroy(BinaryTree* tree) {
-        if (tree == nullptr) { return; }
+        if (tree == nullptr) return;
         destroyNode(tree->root, tree->NIL);
         delete tree;
     }
-    
 }
-
-
