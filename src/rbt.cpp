@@ -4,11 +4,12 @@
 #include <algorithm>
 #include <vector>
 
-
 namespace RBT {
 
+    // Ponteiro global para o nó sentinela NIL (equivalente a nullptr nas folhas)
     Node* NIL = nullptr;
 
+    // Criação da estrutura inicial da árvore
     BinaryTree* create() {
         if (NIL == nullptr) {
             NIL = new Node;
@@ -22,7 +23,7 @@ namespace RBT {
         return tree;
     }
 
-    // funções para rotacionar subárvores
+    // Rotação à esquerda
     void leftRotate(BinaryTree* tree, Node* node) {
         Node* rightCurrentChild = node->right;
         node->right = rightCurrentChild->left;
@@ -35,20 +36,17 @@ namespace RBT {
 
         if (node->parent == nullptr) {
             tree->root = rightCurrentChild;
-
         } else if (node == node->parent->left) {
             node->parent->left = rightCurrentChild;
-
         } else {
             node->parent->right = rightCurrentChild;
-
         }
 
         rightCurrentChild->left = node;
         node->parent = rightCurrentChild;
-
     }
 
+    // Rotação à direita
     void rightRotate(BinaryTree* tree, Node* node) {
         Node* leftCurrentChild = node->left;
         node->left = leftCurrentChild->right;
@@ -61,20 +59,17 @@ namespace RBT {
 
         if (node->parent == nullptr) {
             tree->root = leftCurrentChild;
-
         } else if (node == node->parent->left) {
             node->parent->left = leftCurrentChild;
-
         } else {
             node->parent->right = leftCurrentChild;
-
         }
 
         leftCurrentChild->right = node;
         node->parent = leftCurrentChild;
-
     }
 
+    // Corrige as violações das propriedades da árvore após inserção
     void fixInsertion(BinaryTree* tree, Node* node) {
         while (node != tree->root && node->parent->isRed) {
             Node* parent = node->parent;
@@ -84,11 +79,13 @@ namespace RBT {
                 Node* uncle = grandparent->right;
 
                 if (uncle->isRed) {
+                    // Caso 1: Tio vermelho - recoloração
                     parent->isRed = 0;
                     uncle->isRed = 0;
                     grandparent->isRed = 1;
                     node = grandparent;
                 } else {
+                    // Casos 2 e 3: Tio preto - rotação e recoloração
                     if (node == parent->right) {
                         node = parent;
                         leftRotate(tree, node);
@@ -98,8 +95,7 @@ namespace RBT {
                     grandparent->isRed = 1;
                     rightRotate(tree, grandparent);
                 }
-            } 
-            else {
+            } else {
                 Node* uncle = grandparent->left;
 
                 if (uncle->isRed) {
@@ -107,8 +103,7 @@ namespace RBT {
                     uncle->isRed = 0;
                     grandparent->isRed = 1;
                     node = grandparent;
-                } 
-                else {
+                } else {
                     if (node == parent->left) {
                         node = parent;
                         rightRotate(tree, node);
@@ -120,109 +115,88 @@ namespace RBT {
                 }
             }
         }
-        tree->root->isRed = 0;
+        tree->root->isRed = 0; // raiz sempre preta
     }
+
+    // Função principal de inserção
     InsertResult insert(BinaryTree* tree, const std::string& word, int documentId) {
-    auto start = std::chrono::high_resolution_clock::now();
-    int comparisons = 0;
+        auto start = std::chrono::high_resolution_clock::now();
+        int comparisons = 0;
 
-    // Cria novo nó
-    Node* newNode = new Node;
-    newNode->word = word;
-    newNode->documentIds.push_back(documentId);
-    newNode->isRed = 1;
-    newNode->left = newNode->right = newNode->parent = tree->NIL;
+        Node* newNode = new Node;
+        newNode->word = word;
+        newNode->documentIds.push_back(documentId);
+        newNode->isRed = 1;
+        newNode->left = newNode->right = newNode->parent = tree->NIL;
 
-    // Percorre a árvore para inserir
-    Node* parent = nullptr;
-    Node* current = tree->root;
+        Node* parent = nullptr;
+        Node* current = tree->root;
 
-    while (current != tree->NIL) {
-        parent = current;
-        comparisons++;
-        if (word < current->word) {
-            current = current->left;
-        } 
-        else if (word > current->word) {
-            current = current->right;
-        } 
-        else {
-            // Palavra já existe, só adiciona docId se não for repetido
-            if (current->documentIds.empty() || current->documentIds.back() != documentId)
-                current->documentIds.push_back(documentId);
+        while (current != tree->NIL) {
+            parent = current;
+            comparisons++;
+            if (word < current->word) {
+                current = current->left;
+            } else if (word > current->word) {
+                current = current->right;
+            } else {
+                // Palavra já existe: adiciona documento se for diferente
+                if (current->documentIds.empty() || current->documentIds.back() != documentId)
+                    current->documentIds.push_back(documentId);
 
-            auto end = std::chrono::high_resolution_clock::now();
-            std::chrono::duration<double, std::milli> duration = end - start;
-            return {comparisons, duration.count()};
+                auto end = std::chrono::high_resolution_clock::now();
+                return {comparisons, std::chrono::duration<double, std::milli>(end - start).count()};
+            }
         }
+
+        newNode->parent = parent;
+
+        if (parent == nullptr) {
+            tree->root = newNode;
+        } else if (word < parent->word) {
+            parent->left = newNode;
+        } else {
+            parent->right = newNode;
+        }
+
+        fixInsertion(tree, newNode);
+
+        auto end = std::chrono::high_resolution_clock::now();
+        return {comparisons, std::chrono::duration<double, std::milli>(end - start).count()};
     }
 
-    newNode->parent = parent;
-
-    if (parent == nullptr) {
-        tree->root = newNode;
-    } else if (word < parent->word) {
-        parent->left = newNode;
-    } else {
-        parent->right = newNode;
-    }
-    // Corrige a árvore após a inserção
-    fixInsertion(tree, newNode);
-
-    //Calcula o tempo de inserção e retorn
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> duration = end - start;
-    return {comparisons, duration.count()};
-}
-
+    // Busca por uma palavra na árvore
     SearchResult search(BinaryTree* tree, const std::string& word) {
-        // Inicia o cronômetro
         auto start = std::chrono::high_resolution_clock::now();   
         int comparisons = 0;
         Node* node = tree->root;
-        
-        while(node != tree->NIL) {
+
+        while (node != tree->NIL) {
             comparisons++;
-            if(word == node->word) {
-                // Para o cronômetro quando encontra a palavra
+            if (word == node->word) {
                 auto end = std::chrono::high_resolution_clock::now();
-                std::chrono::duration<double, std::milli> duration_ms = end - start;
-                double time_ms = duration_ms.count();
-                SearchResult result = {1, node->documentIds, time_ms, comparisons};
-                return result;
+                return {1, node->documentIds, std::chrono::duration<double, std::milli>(end - start).count(), comparisons};
             }
-            
-            
-            if(word < node->word) {
-                node = node->left;
-            } 
-            else {
-                node = node->right;
-            }
+
+            node = (word < node->word) ? node->left : node->right;
         }
-        
-        // Para o cronômetro quando não encontra a palavra
+
         auto end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double, std::milli> duration_ms = end - start;
-        double time_ms = duration_ms.count();
-        
-        SearchResult result = {0, {}, time_ms, comparisons};
-        return result;
+        return {0, {}, std::chrono::duration<double, std::milli>(end - start).count(), comparisons};
     }
 
+    // Função auxiliar recursiva para liberar nós da árvore
     void destroyNode(Node* node, Node* NIL) {
-    if (node == NIL) { return; }
-    destroyNode(node->left, NIL);
-    destroyNode(node->right, NIL);
-    delete node;
-}
+        if (node == NIL) return;
+        destroyNode(node->left, NIL);
+        destroyNode(node->right, NIL);
+        delete node;
+    }
 
+    // Liberação de toda a memória alocada para a árvore
     void destroy(BinaryTree* tree) {
-        if (tree == nullptr) { return; }
+        if (tree == nullptr) return;
         destroyNode(tree->root, tree->NIL);
         delete tree;
     }
-    
 }
-
-

@@ -2,49 +2,55 @@
 #define RBT_H
 
 #include <string>
-#include "tree_utils.h"
+#include "tree_utils.h" 
 
 namespace RBT {
-
+    
     /**
-     * @brief Cria e inicializa uma nova árvore Rubro-Negra.
+     * @brief Cria uma nova árvore Rubro-Negra vazia.
      * 
-     * @return Ponteiro para a estrutura BinaryTree recém-criada.
+     * Inicializa os ponteiros e a estrutura da árvore, incluindo o nó NIL (folhas nulas),
+     * que é compartilhado por todos os nós terminais da árvore.
+     * 
+     * @return Ponteiro para a nova árvore criada.
      */
     BinaryTree* create();
 
     /**
      * @brief Insere uma palavra na árvore associada a um ID de documento.
      * 
-     * Se a palavra já existir, o ID do documento é adicionado à lista correspondente.
-     * Caso contrário, a palavra é inserida com o ID do documento como primeiro registro.
+     * Caso a palavra já exista, apenas adiciona o ID do documento ao vetor, evitando duplicatas consecutivas.
+     * Caso não exista, insere a palavra e realiza as rotações e recolorações necessárias para manter
+     * as propriedades da árvore Rubro-Negra.
      * 
-     * @param tree Ponteiro para a árvore Rubro-Negra.
+     * @param tree Ponteiro para a árvore.
      * @param word Palavra a ser inserida.
-     * @param documentId Identificador do documento onde a palavra foi encontrada.
-     * @return Estrutura InsertResult com informações sobre a operação.
+     * @param documentId ID do documento onde a palavra ocorre.
+     * @return Struct InsertResult contendo o número de comparações e o tempo de execução em milissegundos.
      */
     InsertResult insert(BinaryTree* tree, const std::string& word, int documentId);
 
     /**
-     * @brief Realiza a busca por uma palavra na árvore.
+     * @brief Realiza a busca de uma palavra na árvore.
      * 
-     * @param tree Ponteiro para a árvore Rubro-Negra.
+     * Se a palavra for encontrada, retorna os IDs dos documentos em que ela ocorre,
+     * juntamente com informações de desempenho (tempo e comparações).
+     * 
+     * @param tree Ponteiro para a árvore.
      * @param word Palavra a ser buscada.
-     * @return Estrutura SearchResult contendo os dados encontrados ou informação de ausência.
+     * @return Struct SearchResult contendo o vetor de IDs, tempo de execução, número de comparações e se encontrou ou não.
      */
     SearchResult search(BinaryTree* tree, const std::string& word);
 
     /**
      * @brief Libera toda a memória alocada pela árvore.
      * 
-     * Remove todos os nós e limpa os dados associados à árvore.
+     * Destrói todos os nós da árvore, incluindo o nó raiz e libera o ponteiro da estrutura principal.
      * 
-     * @param tree Ponteiro para a árvore a ser destruída.
+     * @param tree Ponteiro para a árvore que será destruída.
      */
     void destroy(BinaryTree* tree);
 
 } // namespace RBT
 
 #endif // RBT_H
-
