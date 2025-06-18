@@ -206,4 +206,23 @@ namespace RBT {
         destroyNode(tree->root, tree->NIL);
         delete tree;
     }
+
+    bool checkRedProperty(Node* node, Node* NIL) {
+    if (node == NIL) return true;
+    if (node->isRed) {
+        if (node->left->isRed || node->right->isRed)
+            return false;
+    }
+    return checkRedProperty(node->left, NIL) && checkRedProperty(node->right, NIL);
+}
+    int blackHeight(Node* node, Node* NIL) {
+    if (node == NIL) return 1; // Contabiliza NIL como preto
+    int leftBlackHeight = blackHeight(node->left, NIL);
+    int rightBlackHeight = blackHeight(node->right, NIL);
+    if (leftBlackHeight == 0 || rightBlackHeight == 0) return 0;
+    if (leftBlackHeight != rightBlackHeight) return 0;
+    return leftBlackHeight + (node->isRed ? 0 : 1);
+}
+
+    
 }

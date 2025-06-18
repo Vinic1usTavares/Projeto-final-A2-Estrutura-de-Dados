@@ -49,6 +49,36 @@ InsertResult insert(BinaryTree* tree, const std::string& word, int documentId);
  *    RBT::destroy(tree); // tree não deve ser usado após isso
  */
 void destroy(BinaryTree* tree);
+/**
+ * @brief Verifica se a propriedade de cores da Red-Black Tree está mantida.
+ * 
+ * @param node Nó atual da árvore sendo verificado.
+ * @param NIL Ponteiro para o nó sentinela NIL da árvore.
+ * 
+ * @return true se nenhum nó vermelho possui filho vermelho (propriedade 4 da RBT),
+ *         false caso contrário.
+ * 
+ * @details Esta função percorre a árvore recursivamente para garantir que não exista
+ *          nenhum nó vermelho com filho vermelho, condição fundamental para o balanceamento
+ *          das Red-Black Trees.
+ */
+bool checkRedProperty(Node* node, Node* NIL);
+
+
+/**
+ * @brief Calcula a altura negra da árvore a partir do nó dado.
+ * 
+ * @param node Nó raiz da subárvore a ser verificada.
+ * @param NIL Ponteiro para o nó sentinela NIL da árvore.
+ * 
+ * @return Número de nós pretos em qualquer caminho da raiz até uma folha NIL.
+ *         Retorna 0 se a propriedade de contagem igual de nós pretos não for satisfeita.
+ * 
+ * @details A altura negra é o número de nós pretos do nó atual até uma folha NIL.
+ *          Esta função verifica se todos os caminhos têm a mesma altura negra,
+ *          condição necessária para o balanceamento correto da Red-Black Tree.
+ */
+int blackHeight(Node* node, Node* NIL);
 
 } // namespace RBT
 
