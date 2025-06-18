@@ -123,7 +123,7 @@ void test_search_found() {
     insert(tree, "hash", 10);
 
     std::cout << "  3. Chamando: SearchResult res = search(tree, \"hash\");\n";
-    SearchResult res = search(tree, "hash");
+    SearchResult res = ::search(tree, "hash");
 
     std::cout << "  4. Verificando se a palavra foi encontrada (res.found == 1)...\n";
     assert(res.found == 1);

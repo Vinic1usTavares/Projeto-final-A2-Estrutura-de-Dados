@@ -52,7 +52,7 @@ void test_index_documents() {
     auto resultados = index_documents(tree, docs, insert);
 
     std::cout << "  4. Chamando: SearchResult res = search(tree, \"garlgalo\");\n";
-    SearchResult res = search(tree, "garlgalo");
+    SearchResult res = ::search(tree, "garlgalo");
 
     std::cout << "  5. Verificando se a palavra 'garlgalo' foi indexada corretamente em ambos os documentos...\n";
     assert(res.found == 1);
