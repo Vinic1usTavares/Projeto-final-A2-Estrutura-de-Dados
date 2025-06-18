@@ -206,7 +206,8 @@ void test_rotate_right_avl() {
     std::cout << "        y = 'c', y->left = 'b', b->left = 'a'\n";
 
     std::cout << "  2. Chamando: rotateRight(y);\n";
-    Node* newRoot = rotateRight(y);
+    int rotationsCount = 0;
+    Node* newRoot = rotateRight(y, rotationsCount);
 
     std::cout << "  3. Verificando se a nova raiz e 'b'...\n";
     assert(newRoot->word == "b");
@@ -258,7 +259,8 @@ void test_rotate_left_avl() {
     std::cout << "        x = 'a', x->right = 'b', b->right = 'c'\n";
 
     std::cout << "  2. Chamando: rotateLeft(x);\n";
-    Node* newRoot = rotateLeft(x);
+    int rotationsCount = 0;
+    Node* newRoot = rotateLeft(x, rotationsCount);
 
     std::cout << "  3. Verificando se a nova raiz e 'b'...\n";
     assert(newRoot->word == "b");
