@@ -6,50 +6,49 @@
 
 namespace RBT {
     
-    /**
-     * @brief Cria uma nova árvore Rubro-Negra vazia.
-     * 
-     * Inicializa os ponteiros e a estrutura da árvore, incluindo o nó NIL (folhas nulas),
-     * que é compartilhado por todos os nós terminais da árvore.
-     * 
-     * @return Ponteiro para a nova árvore criada.
-     */
-    BinaryTree* create();
+/**
+ * @brief Cria e inicializa uma nova Red-Black Tree vazia.
+ * 
+ * @details Aloca a estrutura da árvore e configura o nó sentinela NIL 
+ * (que é sempre preto e compartilhado entre todas as RBTs).
+ * 
+ * @return BinaryTree* Ponteiro para a árvore alocada. O caller é responsável
+ *         por liberar a memória usando RBT::destroy().
+ */
+BinaryTree* create();
 
-    /**
-     * @brief Insere uma palavra na árvore associada a um ID de documento.
-     * 
-     * Caso a palavra já exista, apenas adiciona o ID do documento ao vetor, evitando duplicatas consecutivas.
-     * Caso não exista, insere a palavra e realiza as rotações e recolorações necessárias para manter
-     * as propriedades da árvore Rubro-Negra.
-     * 
-     * @param tree Ponteiro para a árvore.
-     * @param word Palavra a ser inserida.
-     * @param documentId ID do documento onde a palavra ocorre.
-     * @return Struct InsertResult contendo o número de comparações e o tempo de execução em milissegundos.
-     */
-    InsertResult insert(BinaryTree* tree, const std::string& word, int documentId);
+/**
+ * @brief Insere uma palavra na árvore associada a um documento.
+ * 
+ * @param tree Árvore onde a inserção será realizada. Não pode ser nullptr.
+ * @param word Palavra a ser inserida. Caso já exista, apenas adiciona o documentId.
+ * @param documentId ID do documento relacionado à palavra. Evite valores negativos.
+ * 
+ * @return InsertResult Estrutura contendo:
+ *         - comparisons: Número de comparações realizadas durante a inserção
+ *         - time: Tempo de execução em milissegundos
+ *         - rotationsCount: Número de rotações para balanceamento (opcional)
+ * 
+ * @note Complexidade: O(log n) no caso médio e pior caso.
+ * @warning Não thread-safe. Para concorrência, gere sincronização externa.
+ */
+InsertResult insert(BinaryTree* tree, const std::string& word, int documentId);
 
-    /**
-     * @brief Realiza a busca de uma palavra na árvore.
-     * 
-     * Se a palavra for encontrada, retorna os IDs dos documentos em que ela ocorre,
-     * juntamente com informações de desempenho (tempo e comparações).
-     * 
-     * @param tree Ponteiro para a árvore.
-     * @param word Palavra a ser buscada.
-     * @return Struct SearchResult contendo o vetor de IDs, tempo de execução, número de comparações e se encontrou ou não.
-     */
-    SearchResult search(BinaryTree* tree, const std::string& word);
-
-    /**
-     * @brief Libera toda a memória alocada pela árvore.
-     * 
-     * Destrói todos os nós da árvore, incluindo o nó raiz e libera o ponteiro da estrutura principal.
-     * 
-     * @param tree Ponteiro para a árvore que será destruída.
-     */
-    void destroy(BinaryTree* tree);
+/**
+ * @brief Libera completamente a memória utilizada pela árvore.
+ * 
+ * @param tree Árvore a ser destruída. Após esta chamada, o ponteiro se torna inválido.
+ *             Seguro para nullptr (opera como no-op).
+ * 
+ * @details Percorre a árvore recursivamente, deletando todos os nós
+ *          e finalmente a estrutura BinaryTree.
+ * 
+ * @example
+ *    BinaryTree* tree = RBT::create();
+ *    // ... operações ...
+ *    RBT::destroy(tree); // tree não deve ser usado após isso
+ */
+void destroy(BinaryTree* tree);
 
 } // namespace RBT
 

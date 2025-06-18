@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
                 running = false;
                 break;
             }
-            SearchResult result = BST::search(tree, query);
+            SearchResult result = search(tree, query);
             if(result.found == 0) {
                 std::cout << query << " nao esta presente nos textos \n";
             } else {
@@ -59,19 +59,44 @@ int main(int argc, char* argv[]) {
         }
     } 
     else if (command == "stats") {
+        std::size_t TreeMemory = calculateTreeMemory(tree->root);
+        double worstTime = measureWorstCase(tree);
+        int minPath = findMinPath(tree, tree->root);
+        int height  = (tree->root ? GetHeight(tree->root) : 0);
+
+        double time_insertion = 0;
         int total_comparisons = 0;
         for (const auto& res : insert_results) {
             total_comparisons += res.numComparisons;
+            time_insertion += res.executionTime;
         }
 
         std::cout << "\n=== Estatísticas BST ===\n";
-        std::cout << "Documentos indexados: " << n_docs << "\n";
-        std::cout << "Tempo total de indexação: " << index_time.count() << " segundos\n";
-        std::cout << "Comparações totais (inserção): " << total_comparisons << "\n";
-        std::cout << "Altura da árvore: " << (tree->root ? tree->root->height : 0) << "\n\n";
+    // --- Indexação ---
+    std::cout << "-- Indexação / Inserção --\n";
+    std::cout << "Documentos indexados:                      " << n_docs << "\n";
+    std::cout << "Tempo total de indexação (com inserção):   " << index_time.count() << " s\n";
+    std::cout << "Tempo total de inserção:                   " << time_insertion / 1000 << " s\n";
+    std::cout << "Tempo médio de inserção (ms):              " << 
+    
+                time_insertion/n_docs << " ms\n\n";
 
-    }
+    // --- Desempenho ---
+    std::cout << "-- Desempenho --\n";
+    std::cout << "Tempo médio de busca pior caso:    " << worstTime << " ms\n";
+    std::cout << "Comparações (inserção):            " << total_comparisons << "\n\n";
+
+
+    // --- Estrutura & Memória ---
+    std::cout << "-- Estrutura & Memória --\n";
+    std::cout << "Menor caminho:                      " << minPath << "\n";
+    std::cout << "Altura da árvore (maior caminho):   " << height << "\n";
+    std::cout << "Memória utilizada:                  "
+   
+            << (TreeMemory / (1024.0 * 1024.0)) << " MB\n\n";
+
 
     BST::destroy(tree);
     return 0;
+    }
 }

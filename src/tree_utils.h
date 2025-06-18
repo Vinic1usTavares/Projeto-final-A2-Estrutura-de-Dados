@@ -27,6 +27,7 @@ struct BinaryTree {
 struct InsertResult {
     int numComparisons;    // Número de comparações realizadas
     double executionTime;  // Tempo gasto na inserção (em milissegundos)
+    int rotationsCount;
 };
 
 // Resultado da busca por uma palavra na árvore
@@ -37,22 +38,135 @@ struct SearchResult {
     int numComparisons;            // Número de comparações realizadas durante a busca
 };
 
-// Imprime as palavras e os documentos associados em ordem, até um limite de palavras
+/**
+ * Pesquisa uma palavra na árvore.
+ * @param tree Endereço da árvore
+ * @param word Palavra a ser pesquisada
+ * @return SearchResult contendo: found = 1 caso a palvra for achada ou 0 caso contrário, um vector<int> dos Ids dos documentos em que a palvra esta presente, o tempo (double) de execução da função e o número (int) de comparações realizadas.
+ */
+SearchResult search(BinaryTree* tree, const std::string& word);
+
+/**
+ * @brief Função auxiliar para impressão recursiva do índice em ordem lexicográfica.
+ * 
+ * @param node Nó atual sendo processado (inicia na raiz).
+ * @param count Referência ao contador de palavras impressas (incrementado recursivamente).
+ * @param max Número máximo de palavras a serem impressas (limite para evitar sobrecarga).
+ * 
+ * @note Esta função é para uso interno da printIndex() e não deve ser chamada diretamente.
+ */
 void printIndexAux(Node* node, int& count, int max);
 
-// Função de interface que imprime até 50 palavras indexadas
+/**
+ * @brief Imprime até 50 palavras do índice com seus documentos associados.
+ * 
+ * @param tree Ponteiro para a árvore contendo o índice.
+ * 
+ * @details Percorre a árvore em-ordem, imprimindo:
+ *          [contador]. palavra: doc1, doc2, ...
+ *          Limitado a 50 entradas para evitar sobrecarga de saída.
+ */
 void printIndex(BinaryTree* tree);
 
-// Imprime graficamente a estrutura da árvore, com ramos visuais
+/**
+ * @brief Imprime representação visual da estrutura da árvore (diagrama horizontal).
+ * 
+ * @param tree Ponteiro para a árvore a ser visualizada.
+ * 
+ * @example
+ *   raiz
+ *   |-- esquerda
+ *   |   |-- sub-esquerda
+ *   '-- direita
+ * 
+ * @note Útil para depuração e análise de estrutura. Não usar em árvores muito grandes.
+ */
 void printTree(BinaryTree* tree);
 
-// Cria um novo nó da árvore, inicializando seus campos
+/**
+ * @brief Factory function para criação de nós.
+ * 
+ * @return Node* Novo nó alocado na memória com valores padrão:
+ *         - word: string vazia
+ *         - documentIds: vetor vazio
+ *         - ponteiros: nullptr
+ *         - height: 1
+ *         - isRed: 0 (preto)
+ */
 Node* createNode();
 
-// Destroi recursivamente todos os nós da árvore
+/**
+ * @brief Destrói recursivamente uma subárvore a partir de um nó.
+ * 
+ * @param node Raiz da subárvore a ser destruída (percurso pós-ordem).
+ * 
+ * @warning Não usar para destruir árvores completas - prefira destroy() específica (RBT::destroy/AVL::destroy).
+ */
 void destroyNode(Node* node);
 
-// Versão especializada de destruição de nós usada com RBT, respeitando o nó NIL
-void destroyNodeRBT(Node* node, BinaryTree* tree);
+/**
+ * @brief Calcula a altura de uma subárvore.
+ * 
+ * @param root Raiz da subárvore (nullptr considerado altura -1).
+ * @return int Altura máxima da árvore (0 para nó único, -1 para árvore vazia).
+ * 
+ * @note Baseado em percurso recursivo pós-ordem.
+ */
+int GetHeight(Node* root);
+
+/**
+ * @brief Calcula consumo de memória de um nó individual.
+ * 
+ * @param node Nó a ser analisado (nullptr retorna 0).
+ * @return std::size_t Total de bytes utilizados, incluindo:
+ *         - Tamanho da estrutura Node
+ *         - Alocação interna da string (word)
+ *         - Alocação do vetor (documentIds)
+ */
+std::size_t calculateNodeMemory(const Node* node);
+
+/**
+ * @brief Calcula consumo total de memória de uma subárvore.
+ * 
+ * @param root Raiz da subárvore (nullptr retorna 0).
+ * @return std::size_t Soma recursiva da memória de todos os nós.
+ * 
+ * @see calculateNodeMemory()
+ */
+std::size_t calculateTreeMemory(const Node* root);
+
+/**
+ * @brief Mede o maior tempo de busca entre todas as palavras na árvore.
+ * 
+ * @param tree Árvore a ser analisada.
+ * @return double Tempo em milissegundos da busca mais lenta.
+ * 
+ * @details Percorre todos os nós, medindo o tempo de busca para cada palavra.
+ * @note Complexidade O(n log n) - usar com cautela em árvores grandes.
+ */
+double calculateWorstCaseSearchTime(BinaryTree* tree);
+
+/**
+ * @brief Calcula a média do pior tempo de busca com amostragem repetida.
+ * 
+ * @param tree Árvore a ser analisada.
+ * @param repetitions Número de amostras (padrão=200).
+ * @return double Tempo médio em milissegundos.
+ * 
+ * @details Executa calculateWorstCaseSearchTime() múltiplas vezes e tira a média.
+ * @note Objetivo: reduzir variância entre execuções.
+ */
+double measureWorstCase(BinaryTree* tree, int repetitions = 200);
+
+/**
+ * @brief Calcula a altura do menor caminho da raiz até uma folha.
+ * 
+ * @param tree Árvore contendo o nó (para acesso ao NIL se aplicável).
+ * @param node Nó raiz da subárvore (nullptr retorna 0).
+ * @return int Altura do caminho mínimo (0 se nó for folha).
+ * 
+ * @note Útil para verificar balanceamento da árvore.
+ */
+int findMinPath(BinaryTree* tree, Node* node);
 
 #endif

@@ -16,3 +16,4 @@ Thumbs.db
 *.pdb
 *.ilk
 
+venv/
