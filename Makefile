@@ -21,7 +21,7 @@ COMMON_SRCS := $(SRC_DIR)/tree_utils.cpp $(SRC_DIR)/data.cpp
 # Fontes de cada estrutura
 BST_SRCS := $(SRC_DIR)/bst.cpp $(SRC_DIR)/test_bst.cpp
 AVL_SRCS := $(SRC_DIR)/avl.cpp $(SRC_DIR)/test_avl.cpp
-RBT_SRCS := $(SRC_DIR)/rbt.cpp
+RBT_SRCS := $(SRC_DIR)/rbt.cpp $(SRC_DIR)/test_rbt.cpp
 
 # Fonte para data tests
 DATA_SRCS := $(SRC_DIR)/test_data.cpp $(SRC_DIR)/bst.cpp 
@@ -35,7 +35,7 @@ RBT_OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(RBT_SRCS)) $(COMMON_OBJ
 DATA_OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(DATA_SRCS)) $(COMMON_OBJS)
 
 # Alvo principal
-all: prepare bst avl test_data
+all: prepare bst avl rbt test_data
 
 # Criar diretórios
 prepare:

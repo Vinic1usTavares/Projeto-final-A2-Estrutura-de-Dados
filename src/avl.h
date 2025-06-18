@@ -20,13 +20,6 @@ namespace AVL {
     // Retorna um InsertResult contendo informações sobre a operação (comparacoes e tempo).
     InsertResult insert(BinaryTree* tree, const std::string& word, int documentId);
 
-    // Busca uma palavra na árvore AVL.
-    // Parâmetros:
-    // - tree: ponteiro para a árvore AVL
-    // - word: palavra a ser buscada
-    // Retorna um SearchResult com os documentos encontrados e estatísticas da busca.
-    SearchResult search(BinaryTree* tree, const std::string& word);
-
     // Libera toda a memória alocada pela árvore AVL.
     // Parâmetro:
     // - tree: ponteiro para a árvore AVL a ser destruída.
