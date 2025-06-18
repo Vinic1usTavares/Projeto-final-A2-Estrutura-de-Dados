@@ -48,13 +48,13 @@ namespace AVL {
     // Parâmetro:
     // - y: ponteiro para o nó desbalanceado.
     // Retorna o novo nó raiz da subárvore após a rotação.
-    Node* rotateRight(Node* y);
+    Node* rotateRight(Node* y, int& rotationsCount);    
 
     // Executa uma rotação simples para a esquerda.
     // Parâmetro:
     // - x: ponteiro para o nó desbalanceado.
     // Retorna o novo nó raiz da subárvore após a rotação.
-    Node* rotateLeft(Node* x);
+    Node* rotateLeft(Node* x, int& rotationsCount);
 
     // Função auxiliar recursiva para inserir uma palavra na árvore AVL e realizar balanceamento.
     // Parâmetros:
@@ -63,7 +63,7 @@ namespace AVL {
     // - docId: ID do documento onde a palavra foi encontrada.
     // - comparisons: referência para contador de comparações realizadas durante a inserção.
     // Retorna o ponteiro para o nó atualizado após inserção e balanceamento.
-    Node* insertAux(Node* node, const std::string& word, int docId, int& comparisons);
+    Node* insertAux(Node* node, const std::string& word, int docId, int& comparisons, int& rotationsCount);
 }
 
 #endif
