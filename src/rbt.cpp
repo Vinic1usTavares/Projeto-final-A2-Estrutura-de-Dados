@@ -123,60 +123,41 @@ namespace RBT {
 
     // Insere uma palavra na árvore RBT e retorna estatísticas da inserção
     InsertResult insert(BinaryTree* tree, const std::string& word, int documentId) {
-        auto start = std::chrono::high_resolution_clock::now();
-        int comparisons = 0;
-        int rotationsCount = 0;
+    auto start = std::chrono::high_resolution_clock::now();
+    int comparisons = 0;
+    int rotationsCount = 0;
 
-        // Cria novo nó
-        Node* newNode = new Node;
-        newNode->word = word;
-        newNode->documentIds.push_back(documentId);
-        newNode->isRed = 1;
-        newNode->left = newNode->right = newNode->parent = tree->NIL;
+    // Cria novo nó
+    Node* newNode = new Node;
+    newNode->word = word;
+    newNode->documentIds.push_back(documentId);
+    newNode->isRed = 1;
+    newNode->left = newNode->right = newNode->parent = tree->NIL;
 
-        // Percorre a árvore para inserir
-        Node* parent = nullptr;
-        Node* current = tree->root;
+    // Percorre a árvore para inserir
+    Node* parent = nullptr;
+    Node* current = tree->root;
 
-        // Encontra o pai ou se a palavra já existe
-        while (current != tree->NIL) {
-            parent = current;
-            comparisons++;
-            if (word < current->word) {
-                current = current->left;
-            } 
-            else if (word > current->word) {
-                current = current->right;
-            } 
-            else {
-                // Palavra já existe, só adiciona docId se não for repetido
-                if (current->documentIds.empty() || current->documentIds.back() != documentId)
-                    current->documentIds.push_back(documentId);
-
-                auto end = std::chrono::high_resolution_clock::now();
-                std::chrono::duration<double, std::milli> duration = end - start;
-                return {comparisons, duration.count()};
-        }
-
-        newNode->parent = parent;
-
-        if (parent == nullptr) {
-            tree->root = newNode;
-        } else if (word < parent->word) {
-            parent->left = newNode;
+    while (current != tree->NIL) {
+        parent = current;
+        comparisons++;
+        if (word < current->word) {
+            current = current->left;
+        } else if (word > current->word) {
+            current = current->right;
         } else {
-            parent->right = newNode;
+            // Palavra já existe, evita duplicar o docId
+            if (current->documentIds.empty() || current->documentIds.back() != documentId) {
+                current->documentIds.push_back(documentId);
+            }
+
+            auto end = std::chrono::high_resolution_clock::now();
+            return {comparisons, std::chrono::duration<double, std::milli>(end - start).count(), 0};
         }
-
-        fixInsertion(tree, newNode, rotationsCount);
-
-        auto end = std::chrono::high_resolution_clock::now();
-        return {comparisons, std::chrono::duration<double, std::milli>(end - start).count()};
     }
 
+    // Atribui o pai e insere na árvore
     newNode->parent = parent;
-
-    // Encontra onde o newNode deve ser inserido após encontrar o pai
     if (parent == nullptr) {
         tree->root = newNode;
     } else if (word < parent->word) {
@@ -184,13 +165,12 @@ namespace RBT {
     } else {
         parent->right = newNode;
     }
-    // Corrige a árvore após a inserção
+
+    // Corrige a RBT após a inserção
     fixInsertion(tree, newNode, rotationsCount);
 
-    //Calcula o tempo de inserção e retorna
     auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> duration = end - start;
-    return {comparisons, duration.count(), rotationsCount};
+    return {comparisons, std::chrono::duration<double, std::milli>(end - start).count(), rotationsCount};
 }
 
     // Libera recursivamente a memória de todos os nós da árvore
@@ -206,7 +186,8 @@ namespace RBT {
         destroyNode(tree->root, tree->NIL);
         delete tree;
     }
-
+    
+    //Checa se a árvore não tem pai e filho simultaneamente vermelhos
     bool checkRedProperty(Node* node, Node* NIL) {
     if (node == NIL) return true;
     if (node->isRed) {
@@ -215,6 +196,7 @@ namespace RBT {
     }
     return checkRedProperty(node->left, NIL) && checkRedProperty(node->right, NIL);
 }
+    //Calcula o blackheight de uma rbt
     int blackHeight(Node* node, Node* NIL) {
     if (node == NIL) return 1; // Contabiliza NIL como preto
     int leftBlackHeight = blackHeight(node->left, NIL);

@@ -2,7 +2,9 @@
 #include <cassert>
 #include "rbt.h"         
 #include "tree_utils.h"  
-#include "test.h"        
+#include "test.h" 
+#include <functional>       
+
 
 using namespace RBT;    
 
@@ -175,7 +177,103 @@ void test_search_not_found() {
     std::cout << std::string(60, '-') << "\n";
 }
 
+void test_rbt_properties_after_inserts() {
+    std::cout << "[TESTE] Propriedades fundamentais da Árvore Rubro-Negra após múltiplas inserções...\n";
+    BinaryTree* tree = create();
+
+    std::vector<std::string> palavras = {"delta", "alpha", "epsilon", "beta", "gamma", "zeta", "eta", "theta"};
+    int docId = 1;
+    for (const auto& palavra : palavras) {
+        insert(tree, palavra, docId++);
+    }
+
+    std::cout << "Verificando se a raiz da árvore é preta...\n";
+    assert(tree->root->isRed == false);
+    std::cout << "✓ A raiz é preta.\n";
+
+    std::cout << "Verificando se nenhum nó vermelho tem filho vermelho...\n";
+    bool noRedRedViolations = checkRedProperty(tree->root, tree->NIL);
+    assert(noRedRedViolations);
+    std::cout << "✓ Nenhum nó vermelho possui filho vermelho (regra RBT preservada).\n";
+
+    std::cout << "Verificando se a black-height (altura preta) das subárvores esquerda e direita da raiz são iguais...\n";
+    int blackHeightLeft = blackHeight(tree->root->left, tree->NIL);
+    int blackHeightRight = blackHeight(tree->root->right, tree->NIL);
+    assert(blackHeightLeft == blackHeightRight);
+    std::cout << "✓ As black-heights esquerda e direita da raiz são iguais: " 
+              << blackHeightLeft << "\n";
+
+    destroy(tree);
+    std::cout << "✓ Teste concluído com sucesso: propriedades da RBT mantidas após múltiplas inserções.\n";
+    std::cout << std::string(60, '-') << "\n";
+}
+
+
+void test_black_height_consistency() {
+    std::cout << "[TESTE] Consistência da altura preta (black-height) em todos os nós da árvore...\n";
+    BinaryTree* tree = create();
+
+    std::vector<std::string> palavras = {"m", "b", "r", "a", "c", "z", "n"};
+    int docId = 1;
+    for (const auto& palavra : palavras) {
+        insert(tree, palavra, docId++);
+    }
+
+    std::cout << "Percorrendo todos os nós para verificar se a black-height das subárvores esquerda e direita é igual...\n";
+    std::function<void(Node*)> checkBlackHeightRecursive = [&](Node* node) {
+        if (node == tree->NIL) return;
+        int leftBH = blackHeight(node->left, tree->NIL);
+        int rightBH = blackHeight(node->right, tree->NIL);
+        if (leftBH == rightBH) {
+            std::cout << "Propriedade black-height conferida!\n";
+        };
+        assert(leftBH == rightBH);
+        checkBlackHeightRecursive(node->left);
+        checkBlackHeightRecursive(node->right);
+    };
+
+    checkBlackHeightRecursive(tree->root);
+
+    destroy(tree);
+    std::cout << "✓ Teste concluído com sucesso: todos os nós possuem black-heights consistentes.\n";
+    std::cout << std::string(60, '-') << "\n";
+}
+
+void test_rbt_max_min_path_ratio() {
+    std::cout << "[TESTE] Verificação do limite entre caminho mais longo e mais curto na RBT...\n";
+    BinaryTree* tree = create();
+
+    std::vector<std::string> palavras = {
+        "Era", "uma", "vez", "um", "coelhinho", "chamado", "Tico", 
+        "que", "adorava", "brincar", "no", "bosque", "com", "seus", "amigos",
+        "Certo", "dia", "ele", "encontrou", "uma", "chave", "mágica",
+        "debaixo", "de", "uma", "pedra", "brilhante"
+    };
+
+    int docId = 1;
+    for (const auto& palavra : palavras) {
+        insert(tree, palavra, docId++);
+    }
+
+    int altura = GetHeight(tree->root); // maior caminho (pode contar todos os nós)
+    int minPath = findMinPath(tree, tree->root); // menor caminho até folha (todos os nós)
+
+    std::cout << "  -> Altura da árvore (maior caminho): " << altura << "\n";
+    std::cout << "  -> Menor caminho até uma folha:       " << minPath << "\n";
+    std::cout << "  -> Relação altura / menor caminho:    " << (double)altura / minPath << "\n";
+
+    // ASSERT: o maior caminho é no máximo o dobro do menor caminho
+    assert(altura <= 2 * minPath);
+
+
+    destroy(tree);
+    std::cout << "Teste concluído com sucesso: proporção entre maior e menor caminho está dentro do limite da RBT.\n";
+    std::cout << std::string(60, '-') << "\n";
+}
+
+
 void run_rbt_tests() {
+
     std::cout << "\nIniciando testes da Árvore Rubro-Negra (RBT)...\n\n";
 
     test_create_destroy();
@@ -184,6 +282,11 @@ void run_rbt_tests() {
     test_insert_same_word_different_docs();
     test_search_found();
     test_search_not_found();
+
+    // Novos testes rbt
+    test_rbt_properties_after_inserts();
+    test_black_height_consistency();
+    test_rbt_max_min_path_ratio();
 
     std::cout << "\nTodos os testes da RBT foram concluídos com sucesso.\n";
 }

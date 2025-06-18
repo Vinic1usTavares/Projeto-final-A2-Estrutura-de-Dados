@@ -8,6 +8,8 @@
 #include <fstream>
 
 int main(int argc, char* argv[]) {
+
+    
     if (argc < 2) {
         std::cerr << "Uso: ./bin/bst <search|stats> <n_docs> <diretorio>\n";
         std::cerr << "     ./bin/bst tests   (roda os testes unitários)\n";
@@ -16,11 +18,11 @@ int main(int argc, char* argv[]) {
 
     std::string command = argv[1];
 
-    // Caso de testes
-    if(command == "tests") {
-        run_rbt_tests();
-        return 0;
-    }
+    if (command == "tests") {
+    run_rbt_tests();
+    return 0;
+}
+
 
     int n_docs = std::stoi(argv[2]);
     std::string dir = argv[3];
