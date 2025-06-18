@@ -168,7 +168,7 @@ namespace RBT {
             parent->right = newNode;
         }
 
-        fixInsertion(tree, newNode);
+        fixInsertion(tree, newNode, rotationsCount);
 
         auto end = std::chrono::high_resolution_clock::now();
         return {comparisons, std::chrono::duration<double, std::milli>(end - start).count()};
