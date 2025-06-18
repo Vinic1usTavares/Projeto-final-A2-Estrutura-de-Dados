@@ -27,4 +27,4 @@ def plot_fts_comparison(data):
 
     return None
 
-#plot_fts_comparison(data)
+plot_fts_comparison(data)

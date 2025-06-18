@@ -136,29 +136,6 @@ std::size_t calculateNodeMemory(const Node* node);
 std::size_t calculateTreeMemory(const Node* root);
 
 /**
- * @brief Mede o maior tempo de busca entre todas as palavras na árvore.
- * 
- * @param tree Árvore a ser analisada.
- * @return double Tempo em milissegundos da busca mais lenta.
- * 
- * @details Percorre todos os nós, medindo o tempo de busca para cada palavra.
- * @note Complexidade O(n log n) - usar com cautela em árvores grandes.
- */
-double calculateWorstCaseSearchTime(BinaryTree* tree);
-
-/**
- * @brief Calcula a média do pior tempo de busca com amostragem repetida.
- * 
- * @param tree Árvore a ser analisada.
- * @param repetitions Número de amostras (padrão=200).
- * @return double Tempo médio em milissegundos.
- * 
- * @details Executa calculateWorstCaseSearchTime() múltiplas vezes e tira a média.
- * @note Objetivo: reduzir variância entre execuções.
- */
-double measureWorstCase(BinaryTree* tree, int repetitions = 200);
-
-/**
  * @brief Calcula a altura do menor caminho da raiz até uma folha.
  * 
  * @param tree Árvore contendo o nó (para acesso ao NIL se aplicável).
@@ -168,5 +145,28 @@ double measureWorstCase(BinaryTree* tree, int repetitions = 200);
  * @note Útil para verificar balanceamento da árvore.
  */
 int findMinPath(BinaryTree* tree, Node* node);
+
+/**
+ * @brief Encontra o nó mais profundo da árvore binária.
+ * 
+ * @param tree Ponteiro para a estrutura da árvore binária (contendo raiz e NIL).
+ * @return Node* Ponteiro para o nó mais profundo (nullptr se árvore vazia).
+ * 
+ * @note Implementa uma BFS (Busca em Largura) usando std::queue.
+ * O nó mais profundo representa o pior caso teórico de busca na árvore.
+ */
+Node* findDeepestNode(BinaryTree* tree);
+
+/**
+ * @brief Mede o tempo médio de busca para o nó mais profundo da árvore.
+ * 
+ * @param tree Ponteiro para a estrutura da árvore binária.
+ * @return double Tempo médio em milissegundos (baseado em 1000 execuções).
+ * 
+ * @note Utiliza findDeepestNode() para identificar o pior caso estrutural.
+ * Realiza múltiplas execuções para reduzir variações de medição.
+ * Retorna -1.0 se a árvore estiver vazia.
+ */
+double measureDeepestNodeSearch(BinaryTree* tree);
 
 #endif

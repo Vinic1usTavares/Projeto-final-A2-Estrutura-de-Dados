@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
     } 
     else if (command == "stats") {
         std::size_t TreeMemory = calculateTreeMemory(tree->root);
-        double worstTime = measureWorstCase(tree);
+        double worstTime = measureDeepestNodeSearch(tree);
         int minPath = findMinPath(tree, tree->root);
         int height  = (tree->root ? GetHeight(tree->root) : 0);
 
