@@ -8,12 +8,38 @@
 int main(int argc, char* argv[]) {
     if (argc < 2) {
         std::cerr << "Uso: ./bin/bst <search|stats> <n_docs> <diretorio>\n";
-        std::cerr << "     ./bin/bst tests   (roda os testes unitários)\n";
+        std::cerr << "     ./bin/bst tests   (roda os testes unitarios)\n";
         return 1;
     }
 
     std::string command = argv[1];
 
+    // Comando inválido
+    if (command != "search" && command != "stats" && command != "tests") {
+        std::cerr << "Erro: comando invalido. Use 'search', 'stats' ou 'tests'.\n";
+        return 1;
+    }
+
+    // Se for search ou stats, precisa de n_docs e diretorio
+    if ((command == "search" || command == "stats") && argc < 4) {
+        std::cerr << "Erro: argumentos insuficientes para o comando '" << command << "'.\n";
+        std::cerr << "Uso: ./bin/bst <search|stats> <n_docs> <diretorio>\n";
+        return 1;
+    }
+
+    // Checar se n_docs é inteiro > 0
+    if (command == "search" || command == "stats") {
+        try {
+            int n_docs = std::stoi(argv[2]);
+            if (n_docs <= 0) {
+                std::cerr << "Erro: o numero de documentos deve ser um inteiro maior que zero.\n";
+                return 1;
+            }
+        } catch (...) {
+            std::cerr << "Erro: o argumento <n_docs> deve ser um numero inteiro valido.\n";
+            return 1;
+        }
+    }
     // Caso de testes
     if(command == "tests") {
         run_bst_tests();
