@@ -103,6 +103,25 @@ int main(int argc, char* argv[]) {
 
 
 
+    //std::ofstream out("docs/estatisticas.csv", std::ios::app);
+
+    //Cabeçalho: executar apenas na primeira vez
+    //out << "arvore,num_docs,segundos_insercao,segundos_indexacao,pior_busca_ms,comparacoes,num_rotacoes,menor_caminho,altura,memoria_mb\n";
+
+    // out << "RBT," 
+    // << n_docs << ","
+    // << (time_insertion / 1000) << ","
+    // << index_time.count() << ","
+    // << worstTime << ","
+    // << total_comparisons << ","
+    // << total_rotations << ","
+    // << minPath << ","
+    // << height << ","
+    // << (TreeMemory / (1024.0 * 1024.0)) 
+    // << "\n";
+
+    // out.close();
+
     }
 
 
