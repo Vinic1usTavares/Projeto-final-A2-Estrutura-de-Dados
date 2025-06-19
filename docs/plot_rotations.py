@@ -1,10 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
 
-# Caminho para o seu CSV
-csv_path = "benchmark_rotations.csv"  # ajuste se o nome for outro
-
-# Carrega o CSV
+# Caminho para o CSV
+csv_path = "docs/benchmark_rotations.csv"
 df = pd.read_csv(csv_path)
 
 # Filtra dados por tipo de árvore
@@ -24,5 +23,10 @@ plt.legend()
 plt.grid(True)
 plt.tight_layout()
 
-# Mostra o gráfico
-plt.show()
+# Cria diretório de saída se não existir
+output_dir = "docs/graficos"
+os.makedirs(output_dir, exist_ok=True)
+
+# Salva o gráfico
+plt.savefig(os.path.join(output_dir, "grafico_rotacoes.png"), dpi=300)
+

@@ -160,17 +160,21 @@ Para comparar o desempenho e a estrutura das árvores (BST, AVL, RBT), foram des
 # comparação do tempo de indexação/inserção
 g++ -std=c++17 -Wall -Isrc docs/benchmark.cpp src/bst.cpp src/avl.cpp src/rbt.cpp src/data.cpp src/tree_utils.cpp -o bin/benchmark
 
-#comparação estrutural (altura, menor, caminho, total de comparações)
+# comparação do total de rotações acumuladas
+g++ -std=c++17 -Wall -Isrc docs/benchmark.cpp src/bst.cpp src/avl.cpp src/rbt.cpp src/data.cpp src/tree_utils.cpp -o bin/benchmark
+
+# comparação estrutural (altura, menor, caminho, total de comparações)
 g++ -std=c++17 -Wall -Isrc docs/comparativo_estrutural.cpp src/bst.cpp src/avl.cpp src/rbt.cpp src/data.cpp src/tree_utils.cpp -o bin/comparativo_estrutural
 ```
 
 ### Execução para gerar os arquivos `.csv`
 
-Execute os programas ``benchmark``  e ``comparativo_estrutural``  para gerar os dados nas pastas de saída:
+Execute os programas ``benchmark``, ``comparativo_estrutural`` e ``benchmark_rotations``  para gerar os dados nas pastas de saída:
 
 ### Uso
 
 ```bash
+./bin/benchmark <diretorio_docs> <saida_csv>
 ./bin/benchmark <diretorio_docs> <saida_csv>
 ./bin/comparativo_estrutural <diretorio_docs> <saida_csv>
 ```
@@ -187,6 +191,7 @@ Execute:
 ```bash
 python3 docs/plot.py
 python3 docs/plot_estrutura_incremental.py
+python3 docs/plot_rotations.py
 ```
 
 ### Saída:
