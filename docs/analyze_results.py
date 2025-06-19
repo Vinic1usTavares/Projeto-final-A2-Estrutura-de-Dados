@@ -3,16 +3,20 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 data = pd.read_csv("estatisticas.csv")
-n_docs = np.array(data[data["arvore"] == 'RBT']["num_docs"])
+print(data)
+n_docs = np.array(data[data["arvore"] == 'rbt']["num_docs"])
 print(data[data["arvore"] == 'RBT']["segundos_insercao"])
 
 
 def plot_fts_comparison(data):
 
     for key in data.keys():
-        rbt = np.array(data[data["arvore"] == 'RBT'][key])
-        avl = np.array(data[data["arvore"] == 'AVL'][key])
-        bst = np.array(data[data["arvore"] == 'BST'][key])
+        if key in ['arvore', 'num_docs']:
+            continue
+
+        rbt = np.array(data[data["arvore"] == 'rbt'][key])
+        avl = np.array(data[data["arvore"] == 'avl'][key])
+        bst = np.array(data[data["arvore"] == 'bst'][key])
 
 
         plt.figure(figsize = (8,6))
@@ -27,4 +31,6 @@ def plot_fts_comparison(data):
 
     return None
 
-plot_fts_comparison(data)
+#Obs: Gráfico do pior tempo inutilizável devido a variação durante a execução
+# E o arredondamento para 0 devido a ser um tempo muito pequeno
+#plot_fts_comparison(data)
