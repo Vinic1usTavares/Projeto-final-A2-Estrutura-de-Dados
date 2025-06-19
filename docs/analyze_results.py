@@ -11,7 +11,7 @@ print(data[data["arvore"] == 'RBT']["segundos_insercao"])
 def plot_fts_comparison(data):
 
     for key in data.keys():
-        if key in ['arvore', 'num_docs']:
+        if key in ['arvore', 'num_docs', 'pior_busca_ms']:
             continue
 
         rbt = np.array(data[data["arvore"] == 'rbt'][key])
