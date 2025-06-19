@@ -18,11 +18,38 @@ int main(int argc, char* argv[]) {
 
     std::string command = argv[1];
 
-    if (command == "tests") {
-    run_rbt_tests();
-    return 0;
-}
+    // Comando inválido
+    if (command != "search" && command != "stats" && command != "tests") {
+        std::cerr << "Erro: comando invalido. Use 'search', 'stats' ou 'tests'.\n";
+        return 1;
+    }
 
+    // Se for search ou stats, precisa de n_docs e diretorio
+    if ((command == "search" || command == "stats") && argc < 4) {
+        std::cerr << "Erro: argumentos insuficientes para o comando '" << command << "'.\n";
+        std::cerr << "Uso: ./bin/bst <search|stats> <n_docs> <diretorio>\n";
+        return 1;
+    }
+
+    // Checar se n_docs é inteiro > 0
+    if (command == "search" || command == "stats") {
+        try {
+            int n_docs = std::stoi(argv[2]);
+            if (n_docs <= 0) {
+                std::cerr << "Erro: o numero de documentos deve ser um inteiro maior que zero.\n";
+                return 1;
+            }
+        } catch (...) {
+            std::cerr << "Erro: o argumento <n_docs> deve ser um numero inteiro valido.\n";
+            return 1;
+        }
+    }
+
+    // Caso de testes
+    if(command == "tests") {
+        run_rbt_tests();
+        return 0;
+    }
 
     int n_docs = std::stoi(argv[2]);
     std::string dir = argv[3];
@@ -64,9 +91,10 @@ int main(int argc, char* argv[]) {
     } 
     else if (command == "stats") {
         std::size_t TreeMemory = calculateTreeMemory(tree->root);
-        double worstTime = measureWorstCase(tree);
+        double worstTime = measureDeepestNodeSearch(tree);
         int minPath = findMinPath(tree, tree->root);
         int height  = (tree->root ? GetHeight(tree->root) : 0);
+        int numNodes = countNodes(tree->root, tree->NIL);
 
         double time_insertion = 0;
         int total_comparisons = 0;
@@ -80,7 +108,7 @@ int main(int argc, char* argv[]) {
     std::cout << "\n=== Estatísticas RBT ===\n";
     // --- Indexação ---
     std::cout << "-- Indexação / Inserção --\n";
-    std::cout << "Documentos indexados:                      " << n_docs << "\n";
+    std::cout << "Documentos indexados:                      " << documents.size() << "\n";
     std::cout << "Tempo total de indexação (com inserção):   " << index_time.count() << " s\n";
     std::cout << "Tempo total de inserção:                   " << time_insertion / 1000 << " s\n";
     std::cout << "Tempo médio de inserção (ms):              " << 
@@ -96,6 +124,7 @@ int main(int argc, char* argv[]) {
     // --- Estrutura & Memória ---
     std::cout << "-- Estrutura & Memória --\n";
     std::cout << "Menor caminho:                      " << minPath << "\n";
+    std::cout << "Número total de nós:                " << numNodes << "\n";
     std::cout << "Altura da árvore (maior caminho):   " << height << "\n";
     std::cout << "Memória utilizada:                  "
    

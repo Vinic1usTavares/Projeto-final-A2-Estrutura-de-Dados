@@ -136,29 +136,6 @@ std::size_t calculateNodeMemory(const Node* node);
 std::size_t calculateTreeMemory(const Node* root);
 
 /**
- * @brief Mede o maior tempo de busca entre todas as palavras na árvore.
- * 
- * @param tree Árvore a ser analisada.
- * @return double Tempo em milissegundos da busca mais lenta.
- * 
- * @details Percorre todos os nós, medindo o tempo de busca para cada palavra.
- * @note Complexidade O(n log n) - usar com cautela em árvores grandes.
- */
-double calculateWorstCaseSearchTime(BinaryTree* tree);
-
-/**
- * @brief Calcula a média do pior tempo de busca com amostragem repetida.
- * 
- * @param tree Árvore a ser analisada.
- * @param repetitions Número de amostras (padrão=200).
- * @return double Tempo médio em milissegundos.
- * 
- * @details Executa calculateWorstCaseSearchTime() múltiplas vezes e tira a média.
- * @note Objetivo: reduzir variância entre execuções.
- */
-double measureWorstCase(BinaryTree* tree, int repetitions = 200);
-
-/**
  * @brief Calcula a altura do menor caminho da raiz até uma folha.
  * 
  * @param tree Árvore contendo o nó (para acesso ao NIL se aplicável).
@@ -168,5 +145,64 @@ double measureWorstCase(BinaryTree* tree, int repetitions = 200);
  * @note Útil para verificar balanceamento da árvore.
  */
 int findMinPath(BinaryTree* tree, Node* node);
+
+/**
+ * @brief Encontra o nó mais profundo da árvore binária.
+ * 
+ * @param tree Ponteiro para a estrutura da árvore binária (contendo raiz e NIL).
+ * @return Node* Ponteiro para o nó mais profundo (nullptr se árvore vazia).
+ * 
+ * @note Implementa uma BFS (Busca em Largura) usando std::queue.
+ * O nó mais profundo representa o pior caso teórico de busca na árvore.
+ */
+Node* findDeepestNode(BinaryTree* tree);
+
+/**
+ * @brief Mede o tempo médio de busca para o nó mais profundo da árvore.
+ * 
+ * @param tree Ponteiro para a estrutura da árvore binária.
+ * @return double Tempo médio em milissegundos (baseado em 1000 execuções).
+ * 
+ * @note Utiliza findDeepestNode() para identificar o pior caso estrutural.
+ * Realiza múltiplas execuções para reduzir variações de medição.
+ * Retorna -1.0 se a árvore estiver vazia.
+ */
+double measureDeepestNodeSearch(BinaryTree* tree);
+
+/**
+ * @brief Conta o número total de nós em uma árvore binária.
+ * 
+ * @tparam NodePtr Tipo do ponteiro de nó (deve ser compatível com left/right).
+ * @param root Ponteiro para a raiz da árvore ou subárvore a ser contada.
+ * @param NIL Ponteiro para o nó sentinela (folha) utilizado na árvore (opcional).
+ * @return int Número total de nós na árvore/subárvore.
+ * 
+ * @note Esta função é genérica e funciona com diferentes implementações de árvores:
+ * - BST: usar countNodes<BST::Node*>(root)
+ * - AVL: usar countNodes<AVL::Node*>(root) 
+ * - RBT: usar countNodes<RBT::Node*>(root, tree->NIL)
+ * 
+ * @note Complexidade: O(n) onde n é o número de nós (visita cada nó exatamente uma vez)
+ * @note Espaço: O(h) onde h é a altura da árvore (devido à recursão)
+ * 
+ * @warning Para árvores muito desbalanceadas, considere usar a versão iterativa
+ *          para evitar possível estouro de pilha (stack overflow).
+ * 
+ * @code
+ * // Exemplo para BST (usa nullptr como folha):
+ * int total = countNodes<BST::Node*>(bst->root);
+ * 
+ * // Exemplo para RBT (usa NIL como folha):
+ * int total = countNodes<RBT::Node*>(rbt->root, rbt->NIL);
+ * @endcode
+ */
+template <typename NodePtr>
+int countNodes(NodePtr root, NodePtr NIL = nullptr) {
+    if (root == nullptr || root == NIL) {
+        return 0;
+    }
+    return 1 + countNodes(root->left, NIL) 
+             + countNodes(root->right, NIL);
+}
 
 #endif
