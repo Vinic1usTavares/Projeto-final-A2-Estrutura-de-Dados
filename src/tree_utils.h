@@ -169,4 +169,40 @@ Node* findDeepestNode(BinaryTree* tree);
  */
 double measureDeepestNodeSearch(BinaryTree* tree);
 
+/**
+ * @brief Conta o número total de nós em uma árvore binária.
+ * 
+ * @tparam NodePtr Tipo do ponteiro de nó (deve ser compatível com left/right).
+ * @param root Ponteiro para a raiz da árvore ou subárvore a ser contada.
+ * @param NIL Ponteiro para o nó sentinela (folha) utilizado na árvore (opcional).
+ * @return int Número total de nós na árvore/subárvore.
+ * 
+ * @note Esta função é genérica e funciona com diferentes implementações de árvores:
+ * - BST: usar countNodes<BST::Node*>(root)
+ * - AVL: usar countNodes<AVL::Node*>(root) 
+ * - RBT: usar countNodes<RBT::Node*>(root, tree->NIL)
+ * 
+ * @note Complexidade: O(n) onde n é o número de nós (visita cada nó exatamente uma vez)
+ * @note Espaço: O(h) onde h é a altura da árvore (devido à recursão)
+ * 
+ * @warning Para árvores muito desbalanceadas, considere usar a versão iterativa
+ *          para evitar possível estouro de pilha (stack overflow).
+ * 
+ * @code
+ * // Exemplo para BST (usa nullptr como folha):
+ * int total = countNodes<BST::Node*>(bst->root);
+ * 
+ * // Exemplo para RBT (usa NIL como folha):
+ * int total = countNodes<RBT::Node*>(rbt->root, rbt->NIL);
+ * @endcode
+ */
+template <typename NodePtr>
+int countNodes(NodePtr root, NodePtr NIL = nullptr) {
+    if (root == nullptr || root == NIL) {
+        return 0;
+    }
+    return 1 + countNodes(root->left, NIL) 
+             + countNodes(root->right, NIL);
+}
+
 #endif

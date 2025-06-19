@@ -90,6 +90,7 @@ int main(int argc, char* argv[]) {
         double worstTime = measureDeepestNodeSearch(tree);
         int minPath = findMinPath(tree, tree->root);
         int height  = (tree->root ? GetHeight(tree->root) : 0);
+        int numNodes = countNodes(tree->root);
 
         double time_insertion = 0;
         int total_comparisons = 0;
@@ -117,6 +118,7 @@ int main(int argc, char* argv[]) {
     // --- Estrutura & Memória ---
     std::cout << "-- Estrutura & Memória --\n";
     std::cout << "Menor caminho:                      " << minPath << "\n";
+    std::cout << "Número total de nós:                " << numNodes << "\n";
     std::cout << "Altura da árvore (maior caminho):   " << height << "\n";
     std::cout << "Memória utilizada:                  "
    
