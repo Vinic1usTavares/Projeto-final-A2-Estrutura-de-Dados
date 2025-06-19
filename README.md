@@ -194,6 +194,7 @@ Execute:
 python3 docs/plot.py
 python3 docs/plot_estrutura_incremental.py
 python3 docs/plot_rotations.py
+python3 docs/analyze_results.py
 ```
 
 ### Saída:
