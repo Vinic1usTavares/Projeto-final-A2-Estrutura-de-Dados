@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <chrono>
+#include <fstream>
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
@@ -86,9 +87,10 @@ int main(int argc, char* argv[]) {
     } 
     else if (command == "stats") {
         std::size_t TreeMemory = calculateTreeMemory(tree->root);
-        double worstTime = measureWorstCase(tree);
+        double worstTime = measureDeepestNodeSearch(tree);
         int minPath = findMinPath(tree, tree->root);
         int height  = (tree->root ? GetHeight(tree->root) : 0);
+        int numNodes = countNodes(tree->root);
 
         double time_insertion = 0;
         int total_comparisons = 0;
@@ -116,10 +118,34 @@ int main(int argc, char* argv[]) {
     // --- Estrutura & Memória ---
     std::cout << "-- Estrutura & Memória --\n";
     std::cout << "Menor caminho:                      " << minPath << "\n";
+    std::cout << "Número total de nós:                " << numNodes << "\n";
     std::cout << "Altura da árvore (maior caminho):   " << height << "\n";
     std::cout << "Memória utilizada:                  "
    
             << (TreeMemory / (1024.0 * 1024.0)) << " MB\n\n";
+
+    
+
+    // Comando para adicionar as estatísticas coletada ao csv:
+
+    //std::ofstream out("docs/estatisticas.csv", std::ios::app);
+
+    //Cabeçalho: executar apenas na primeira vez
+    // out << "arvore,num_docs,segundos_insercao,segundos_indexacao,pior_busca_ms,comparacoes,num_rotacoes,menor_caminho,altura,memoria_mb\n";
+
+    // out << "BST," 
+    // << n_docs << ","
+    // << (time_insertion / 1000) << ","
+    // << index_time.count() << ","
+    // << worstTime << ","
+    // << total_comparisons << ","
+    // << 0 << "," //Número de rotações
+    // << minPath << ","
+    // << height << ","
+    // << (TreeMemory / (1024.0 * 1024.0)) 
+    // << "\n";
+
+    // out.close();
 
 
     BST::destroy(tree);

@@ -1,6 +1,7 @@
 #include "tree_utils.h"
 #include <iostream>
 #include <functional>
+#include <queue>
 
 SearchResult search(BinaryTree* tree, const std::string& word) {
     // Inicia o cronômetro
@@ -125,16 +126,15 @@ int GetHeight(Node* root){
 std::size_t calculateNodeMemory(const Node* node) {
     if (node == nullptr) return 0;
 
-    std::size_t memory = 0;
-    
-    // Memória da palavra (string)
-    memory += node->word.capacity() + sizeof(std::string);
+    std::size_t memory = sizeof(Node); // Já inclui word, documentIds, left, right
 
-    // Memória do vetor de documentIds
-    memory += node->documentIds.capacity() * sizeof(int) + sizeof(std::vector<int>);
+    // Memória alocada dinamicamente pela string (se não estiver em SSO)
+    if (node->word.capacity() > sizeof(node->word)) {
+        memory += node->word.capacity();
+    }
 
-    // Memória da estrutura Node (inclui ponteiros left/right)
-    memory += sizeof(Node);
+    // Memória alocada dinamicamente pelo vetor (se não estiver no buffer interno)
+    memory += node->documentIds.capacity() * sizeof(int);
 
     return memory;
 }
@@ -147,43 +147,6 @@ std::size_t calculateTreeMemory(const Node* root) {
            + calculateTreeMemory(root->right);
 }
 
-// Retorna o tempo (em ms) da busca mais lenta (pior caso)
-double calculateWorstCaseSearchTime(BinaryTree* tree) {
-    double worstTime = 0.0;
-    
-    // Função para percorrer a árvore e testar cada palavra
-    std::function<void(Node*)> testNode = [&](Node* node) {
-        if (node == nullptr || node == tree->NIL) return;
-        
-        // Testa a busca para a palavra deste nó
-        auto start = std::chrono::high_resolution_clock::now();
-        search(tree, node->word);
-        auto end = std::chrono::high_resolution_clock::now();
-        double currentTime = std::chrono::duration<double, std::milli>(end - start).count();
-        
-        // Atualiza o pior tempo
-        if (currentTime > worstTime) {
-            worstTime = currentTime;
-        }
-        
-        // Percorre os filhos
-        testNode(node->left);
-        testNode(node->right);
-    };
-    
-    // Inicia o teste a partir da raiz
-    testNode(tree->root);
-    
-    return worstTime;
-}
-
-double measureWorstCase(BinaryTree* tree, int repetitions) {
-    double totalTime = 0.0;
-    for (int i = 0; i < repetitions; ++i) {
-        totalTime += calculateWorstCaseSearchTime(tree);
-    }
-    return totalTime / repetitions;
-}
 
 int findMinPath(BinaryTree* tree, Node* node) {
     if (node == nullptr || node == tree->NIL) {
@@ -192,4 +155,43 @@ int findMinPath(BinaryTree* tree, Node* node) {
     int leftHeight = findMinPath(tree, node->left);
     int rightHeight = findMinPath(tree, node->right);
     return 1 + std::min(leftHeight, rightHeight);
+}
+
+
+Node* findDeepestNode(BinaryTree* tree) {
+    if (tree->root == nullptr || tree->root == tree->NIL) return nullptr;
+
+    std::queue<Node*> q; // Declara uma fila
+    q.push(tree->root);
+    Node* deepestNode = nullptr;
+
+    while (!q.empty()) {
+        deepestNode = q.front(); // Pega o nó da frente da fila
+        q.pop(); // Remove o nó processado
+
+        // Adiciona os filhos à fila
+        if (deepestNode->left != nullptr && deepestNode->left != tree->NIL) {
+            q.push(deepestNode->left);
+        }
+        if (deepestNode->right != nullptr && deepestNode->right != tree->NIL) {
+            q.push(deepestNode->right);
+        }
+    }
+
+    return deepestNode; // Retorna o último nó processado (mais profundo)
+}
+
+double measureDeepestNodeSearch(BinaryTree* tree) {
+    Node* deepestNode = findDeepestNode(tree); // Implemente essa função
+    double totalTime = 0.0;
+    const int runs = 1000;
+
+    for (int i = 0; i < runs; i++) {
+        auto start = std::chrono::high_resolution_clock::now();
+        search(tree, deepestNode->word);
+        auto end = std::chrono::high_resolution_clock::now();
+        totalTime += std::chrono::duration<double, std::milli>(end - start).count();
+    }
+    return totalTime / runs;
+
 }
