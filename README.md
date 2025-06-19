@@ -123,7 +123,7 @@ Onde `<estrutura>` pode ser `bst`, `avl` ou `rbt`, e `<comando>` pode ser `searc
 ```bash
 ./bin/avl search 10 data
 ./bin/avl stats 10 data
-./bin/avl tests
+./bin/av tests
 ```
 #### RBT:
 
@@ -144,24 +144,81 @@ Esse programa executa testes de:
 - Processamento de palavras (`process_words`)
     
 - Indexação de documentos na estrutura BST (`index_documents` + `insert`)
+
+
+---
+## Geração de gráficos comparativos
+
+Para comparar o desempenho e a estrutura das árvores (BST, AVL, RBT), foram desenvolvidos:
+
+- Programas C++ para **gerar os dados estatísticos** em formato `.csv`
     
+- Scripts Python para **gerar os gráficos** a partir desses dados
+### Compilação dos geradores de dados
+
+```bash
+# comparação do tempo de indexação/inserção
+g++ -std=c++17 -Wall -Isrc docs/benchmark.cpp src/bst.cpp src/avl.cpp src/rbt.cpp src/data.cpp src/tree_utils.cpp -o bin/benchmark
+
+#comparação estrutural (altura, menor, caminho, total de comparações)
+g++ -std=c++17 -Wall -Isrc docs/comparativo_estrutural.cpp src/bst.cpp src/avl.cpp src/rbt.cpp src/data.cpp src/tree_utils.cpp -o bin/comparativo_estrutural
+```
+
+### Execução para gerar os arquivos `.csv`
+
+Execute os programas ``benchmark``  e ``comparativo_estrutural``  para gerar os dados nas pastas de saída:
+
+### Uso
+
+```bash
+./bin/benchmark <diretorio_docs> <saida_csv>
+./bin/comparativo_estrutural <diretorio_docs> <saida_csv>
+```
+
+### Exemplo
+```bash
+./bin/benchmark data docs/tempo_indexacao.csv # Plot: comparação do tempo de indexação/inserção
+./bin/comparativo_estrutural data docs/estrutura.csv # Plot:comparação estrutural (altura, menor, caminho, total de comparações)
+```
+
+## Geração de gráficos com Python
+
+Execute:
+```bash
+python3 docs/plot.py
+python3 docs/plot_estrutura_incremental.py
+```
+
+### Saída:
+O programa salva automaticamente os gráficos em ``docs/graficos``
+
 
 ---
 
 ## Requisitos
-
+### C++:
 - Compilador `g++` com suporte a C++17
     
 - `make` (opcional, apenas para automação)
     
 - Ambiente Linux, macOS ou Windows com MSYS2/MinGW
+### Python:
+- Python 3 instalado
     
+- Bibliotecas:
+    - `matplotlib`
+        
+    - `pandas`
 
 ---
 
 ## Diretórios
 
 - `src/` — Código-fonte (estruturas, funções auxiliares, testes)
+	
+- ``docs/`` — Documentos referentes à análise comparativas das estruturas
+		
+	- ``graficos`` — gráficos das comparações
     
 - `bin/` — Executáveis gerados
     
