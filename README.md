@@ -216,6 +216,9 @@ O programa salva automaticamente os gráficos em ``docs/graficos``
     - `matplotlib`
         
     - `pandas`
+            
+    - `numpy`
+
 
 ---
 
