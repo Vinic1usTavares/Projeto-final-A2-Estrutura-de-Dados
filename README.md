@@ -156,6 +156,8 @@ Para comparar o desempenho e a estrutura das árvores (BST, AVL, RBT), foram des
 - Scripts Python para **gerar os gráficos** a partir desses dados
 ### Compilação dos geradores de dados
 
+Primeiro crie as pastas ``bin`` e ``obj``.
+
 ```bash
 # comparação do tempo de indexação/inserção
 g++ -std=c++17 -Wall -Isrc docs/benchmark.cpp src/bst.cpp src/avl.cpp src/rbt.cpp src/data.cpp src/tree_utils.cpp -o bin/benchmark
